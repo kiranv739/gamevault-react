@@ -1,70 +1,94 @@
-# Getting Started with Create React App
+# 🎮 GameVault
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+GameVault is a modern, visually stunning, and highly interactive React-based gaming storefront and library application. Browse, search, filter, and buy your favorite video games with a seamless, responsive user interface.
 
-## Available Scripts
+![GameVault Preview](https://raw.githubusercontent.com/kiranv739/gamevault-react/main/public/assets/cyberpunk.jpg) *(Replace with actual application screenshot)*
 
-In the project directory, you can run:
+## ✨ Key Features
 
-### `npm start`
+- **🔐 Interactive User Authentication**: Log in, register, or browse immediately as a guest gamer.
+- **🔍 Game Catalog & Swiper Carousel**: Dynamic showcases featuring trending titles like *Elden Ring*, *Cyberpunk 2077*, and *God of War*.
+- **🏷️ Multi-Category Filtering**: Instant client-side filtering by categories (Action, RPG, Adventure, Shooter, Indie, etc.).
+- **🛒 Shopping Bag (Cart)**: Add/remove items with realtime price calculations, discounts, and item count indicators.
+- **📚 Personal Games Library**: Keep track of purchased games.
+- **💳 Fully-Functional Checkout**: Interactive order confirmation flow.
+- **🔔 Dynamic Toast Notifications**: Clean UI alerts for key actions (e.g., adding to cart, logging in/out).
+- **📱 Fully Responsive Design**: Built with custom HSL/RGB colors, modern typography, glassmorphism card layouts, and responsive breakpoints using Bootstrap and Vanilla CSS.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Tech Stack
 
-### `npm test`
+- **Frontend Core**: React 18, HTML5, Vanilla CSS
+- **Styling & Layout**: Bootstrap 5 + Bootstrap Icons
+- **Swiper Engine**: Swiper.js (for smooth touch/swipe carousels)
+- **Local DB**: Client-side JSON database (`public/api/gamesData.json`)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🚀 Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To run the project locally, follow these steps:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Make sure you have [Node.js](https://nodejs.org/) installed.
 
-### `npm run eject`
+### Installation
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/kiranv739/gamevault-react.git
+   ```
+2. Navigate into the project directory:
+   ```bash
+   cd gamevault-react
+   ```
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Running Locally
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+To start the local development server:
+```bash
+npm start
+```
+This opens the development server at [http://localhost:3000](http://localhost:3000).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Build for Production
 
-## Learn More
+To build the project for production:
+```bash
+npm run build
+```
+This bundles the app into static files in the `build` folder, ready for deployment.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📂 Project Structure
 
-### Code Splitting
+```text
+src/
+├── components/          # Reusable UI Components (Cards, Menus, Toast)
+│   ├── GameCard.jsx
+│   ├── GameSwiper.jsx
+│   ├── SideMenu.jsx
+│   └── Toast.jsx
+├── data/                # Static data arrays and lists
+├── hooks/               # Custom React hooks (useToast)
+├── pages/               # Page components (Home, Library, Cart, Checkout, Auth)
+│   ├── Main.jsx
+│   ├── Home.jsx
+│   ├── Bag.jsx
+│   └── Auth.jsx
+├── App.js               # Main App component & AppContext
+└── index.js             # App entry point
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 📝 License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is open source and available under the [MIT License](LICENSE).
