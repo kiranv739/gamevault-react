@@ -1,0 +1,99 @@
+[
+    {
+      "_id": 1,
+      "title": "Cyberpunk 2077",
+      "description": "In a dystopian future, explore the sprawling city of Night City as a mercenary on the rise.",
+      "level": "High",
+      "category": "RPG",
+      "rating": 4,
+      "discount": 0.2,
+      "price": 4999,
+      "img": "./assets/cyberpunk.jpg",
+      "active": true
+    },
+    {
+      "_id": 2,
+      "title": "Elden Ring",
+      "description": "From the minds of Hidetaka Miyazaki and George R. R. Martin, enter a vast, intricately designed world of dark fantasy.",
+      "level": "High",
+      "category": "RPG",
+      "rating": 5,
+      "discount": 0.15,
+      "price": 5699,
+      "img": "./assets/eldenring.jpg",
+      "active": true
+    },
+    {
+      "_id": 3,
+      "title": "God of War: Ragnarök",
+      "description": "Join Kratos and Atreus on an epic journey as they face down the gods of Norse mythology.",
+      "level": "High",
+      "category": "Action",
+      "rating": 5,
+      "discount": 0.1,
+      "price": 6499,
+      "img": "./assets/ragnarok.jpg",
+      "active": true
+    },
+    {
+      "_id": 4,
+      "title": "Hogwarts Legacy",
+      "description": "Explore the wizarding world in the 1800s as a young witch or wizard in an open-world adventure.",
+      "level": "Median",
+      "category": "Adventure",
+      "rating": 4,
+      "discount": 0.3,
+      "price": 4999,
+      "img": "./assets/hogwards.jpg",
+      "active": false
+    },
+    {
+      "_id": 5,
+      "title": "Spider-Man: Miles Morales",
+      "description": "Step into the shoes of Miles Morales and protect New York City in this high-stakes superhero adventure.",
+      "level": "Median",
+      "category": "Action",
+      "rating": 4,
+      "discount": 0.25,
+      "price": 3999,
+      "img": "./assets/spiderman.jpg",
+      "active": true
+    },
+    {
+      "_id": 6,
+      "title": "Assassin's Creed Valhalla",
+      "description": "Venture into England's Dark Ages as a Viking in a world of epic battles and conquest.",
+      "level": "High",
+      "category": "RPG",
+      "rating": 4,
+      "discount": 0.4,
+      "price": 3299,
+      "img": "./assets/assasins.jpg",
+      "active": false
+    },
+    {
+      "_id": 7,
+      "title": "Call of Duty: Modern Warfare II",
+      "description": "Join the legendary Task Force 141 in a new era of warfare in this action-packed shooter.",
+      "level": "High",
+      "category": "Shooter",
+      "rating": 4,
+      "discount": 0.2,
+      "price": 5499,
+      "img": "./assets/mw2.jpg",
+      "active": false
+    },
+    {
+      "_id": 8,
+      "title": "Hades",
+      "description": "Battle your way out of the Underworld as Zagreus, son of Hades, in this rogue-like dungeon crawler.",
+      "level": "Median",
+      "category": "Indie",
+      "rating": 5,
+      "discount": 0.5,
+      "price": 1999,
+      "img": "./assets/hades.jpg",
+      "active": true
+    }
+  ]
+  

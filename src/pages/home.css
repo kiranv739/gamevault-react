@@ -1,0 +1,159 @@
+section.home .sectionTitle {
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 1px;
+  background: linear-gradient(135deg, var(--text), var(--glow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 20px;
+}
+
+/* Genre Chips */
+.genre-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 0;
+}
+
+.genre-chip {
+  background: rgba(20, 20, 53, 0.4);
+  color: var(--muted);
+  border: 1px solid rgba(217, 70, 239, 0.15);
+  padding: 8px 24px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  backdrop-filter: blur(8px);
+}
+
+.genre-chip:hover {
+  color: var(--text);
+  border-color: rgba(217, 70, 239, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(217, 70, 239, 0.15);
+}
+
+.genre-chip.active {
+  color: var(--text);
+  background: linear-gradient(135deg, var(--primary), var(--glow));
+  border-color: transparent;
+  box-shadow: 0 6px 20px rgba(217, 70, 239, 0.45);
+  transform: translateY(-2px);
+}
+
+/* View More Button */
+.viewMore-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.viewMore-btn:hover {
+  color: var(--glow);
+}
+
+.viewMore-btn:hover i {
+  transform: translateX(4px);
+}
+
+.viewMore-btn i {
+  transition: transform 0.3s ease;
+}
+
+/* Horizontal Scrollable Strips */
+.scrollable-strip {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px 5px;
+  scroll-behavior: smooth;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.scrollable-strip::-webkit-scrollbar {
+  display: none; /* Safari/Chrome */
+}
+
+/* Force children of scrollable strip to keep a fixed size */
+.scrollable-strip > div {
+  flex: 0 0 auto;
+  width: 290px !important;
+  max-width: 290px !important;
+}
+
+/* Responsive CSS Grid Override for All Games Grid */
+.all-games-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 24px;
+  padding: 10px 0;
+}
+
+/* Reset Bootstrap Column Widths Inside CSS Grid */
+.all-games-grid > div {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
+}
+
+@media (min-width: 768px) {
+  .all-games-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .all-games-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Load More Button */
+.load-more-btn {
+  background: rgba(20, 20, 53, 0.4);
+  backdrop-filter: blur(8px);
+  color: var(--text);
+  border: 1px solid rgba(217, 70, 239, 0.25);
+  padding: 12px 32px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.load-more-btn:hover {
+  border-color: rgba(217, 70, 239, 0.5);
+  background: rgba(217, 70, 239, 0.1);
+  box-shadow: 0 0 20px rgba(217, 70, 239, 0.25);
+  transform: translateY(-2px);
+}
+
+.load-more-btn i {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.load-more-btn:hover i {
+  transform: translateY(3px);
+}

@@ -1,0 +1,273 @@
+.auth-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(6, 6, 26, 0.94);
+  backdrop-filter: blur(20px);
+  z-index: 2500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(20, 20, 53, 0.45) 0%, rgba(12, 13, 38, 0.75) 100%);
+  border: 1px solid rgba(217, 70, 239, 0.16);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(6, 6, 26, 0.7),
+              inset 0 1px 1px rgba(255, 255, 255, 0.05);
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+  animation: authFadeUp 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+}
+
+@keyframes authFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.auth-close-btn:hover {
+  color: var(--text);
+  transform: scale(1.1);
+}
+
+/* Tabs */
+.auth-tabs {
+  display: flex;
+  border-bottom: 2px solid rgba(217, 70, 239, 0.15);
+}
+
+.auth-tab-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 12px 0;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.auth-tab-btn:hover {
+  color: var(--text);
+}
+
+.auth-tab-btn.active {
+  color: var(--accent);
+}
+
+.auth-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--glow));
+  box-shadow: 0 0 8px rgba(217, 70, 239, 0.6);
+}
+
+/* Labels and Inputs */
+.auth-label {
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+.auth-input {
+  background: rgba(12, 13, 38, 0.6) !important;
+  border: 1px solid rgba(217, 70, 239, 0.18) !important;
+  color: var(--text) !important;
+  border-radius: 12px !important;
+  padding: 10px 16px !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+}
+
+.auth-input:focus {
+  border-color: rgba(217, 70, 239, 0.5) !important;
+  box-shadow: 0 0 16px rgba(217, 70, 239, 0.2) !important;
+  outline: none !important;
+}
+
+.auth-input::placeholder {
+  color: var(--muted) !important;
+  opacity: 0.4;
+}
+
+/* Password Toggle Wrapper */
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-toggle-eye {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.password-toggle-eye:hover {
+  color: var(--glow);
+}
+
+/* Checkbox & Remember */
+.auth-checkbox {
+  background-color: rgba(12, 13, 38, 0.6) !important;
+  border-color: rgba(217, 70, 239, 0.25) !important;
+  cursor: pointer;
+}
+
+.auth-checkbox:checked {
+  background-color: var(--glow) !important;
+  border-color: var(--glow) !important;
+}
+
+.remember-label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+.forgot-password-link {
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgot-password-link:hover {
+  color: var(--glow);
+  text-shadow: 0 0 8px rgba(217, 70, 239, 0.3);
+}
+
+/* Buttons */
+.btn-auth {
+  background: linear-gradient(135deg, var(--primary), var(--glow));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 16px rgba(217, 70, 239, 0.35);
+}
+
+.btn-auth:hover {
+  background: linear-gradient(135deg, var(--glow), var(--accent));
+  box-shadow: 0 6px 22px rgba(217, 70, 239, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-guest {
+  background: transparent;
+  border: 1px solid rgba(217, 70, 239, 0.3);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn-guest:hover {
+  border-color: rgba(217, 70, 239, 0.6);
+  background: rgba(217, 70, 239, 0.08);
+  box-shadow: 0 0 16px rgba(217, 70, 239, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Divider */
+.divider-or {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.divider-or::before,
+.divider-or::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(217, 70, 239, 0.15);
+}
+
+.divider-or:not(:empty)::before {
+  margin-right: .5em;
+}
+
+.divider-or:not(:empty)::after {
+  margin-left: .5em;
+}
+
+/* Tab Switching animation */
+.fade-in {
+  animation: authFormFadeIn 0.3s ease;
+}
+
+@keyframes authFormFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

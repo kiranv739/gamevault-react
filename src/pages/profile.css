@@ -1,0 +1,240 @@
+.profile-card {
+  background: linear-gradient(135deg, rgba(20, 20, 53, 0.25) 0%, rgba(12, 13, 38, 0.45) 100%);
+  border: 1px solid rgba(217, 70, 239, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(6, 6, 26, 0.3);
+}
+
+/* 1. Profile Header */
+.profile-avatar-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--glow));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--text);
+  box-shadow: 0 0 25px rgba(217, 70, 239, 0.4);
+  user-select: none;
+}
+
+.profile-username {
+  font-weight: 800;
+  font-size: 1.8rem;
+  letter-spacing: 0.5px;
+}
+
+.profile-email {
+  font-size: 0.95rem;
+  letter-spacing: 0.2px;
+}
+
+.btn-edit-profile {
+  background: transparent;
+  border: 1px solid rgba(217, 70, 239, 0.35);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-edit-profile:hover {
+  background: rgba(217, 70, 239, 0.08);
+  border-color: var(--glow);
+  transform: translateY(-1px);
+}
+
+/* 2. Stats Grid */
+.stats-card {
+  background: linear-gradient(135deg, rgba(20, 20, 53, 0.25) 0%, rgba(12, 13, 38, 0.45) 100%);
+  border: 1px solid rgba(217, 70, 239, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(6, 6, 26, 0.3);
+  transition: all 0.3s ease;
+}
+
+.stats-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217, 70, 239, 0.2);
+}
+
+.stats-icon {
+  font-size: 2.2rem;
+  background: linear-gradient(135deg, var(--accent), var(--glow));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.3));
+}
+
+.stats-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.stats-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.5px;
+}
+
+/* 3. Orders Table */
+.profile-orders-table {
+  margin-bottom: 0;
+}
+
+.profile-orders-table th {
+  background: transparent !important;
+  color: var(--muted) !important;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid rgba(217, 70, 239, 0.12) !important;
+  padding: 14px 10px;
+}
+
+.profile-orders-table td {
+  background: transparent !important;
+  color: var(--text) !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 16px 10px;
+  border-bottom: 1px solid rgba(217, 70, 239, 0.05) !important;
+}
+
+.order-id-badge {
+  background: rgba(217, 70, 239, 0.08);
+  border: 1px solid rgba(217, 70, 239, 0.2);
+  color: var(--accent);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-family: monospace;
+  font-weight: 700;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(25, 135, 84, 0.2);
+}
+
+/* 4. Settings Toggles & Collapse */
+.settings-collapse-header {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.settings-collapse-header:hover {
+  color: var(--accent);
+}
+
+.settings-item-title {
+  display: flex;
+  align-items: center;
+}
+
+.settings-sub-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.btn-delete-account {
+  background: transparent;
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  color: #f43f5e;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-delete-account:hover {
+  background: rgba(244, 63, 94, 0.08);
+  border-color: #f43f5e;
+  box-shadow: 0 0 16px rgba(244, 63, 94, 0.15);
+  transform: translateY(-1px);
+}
+
+/* 5. Delete Modal Popup */
+.profile-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(6, 6, 26, 0.85);
+  backdrop-filter: blur(15px);
+  z-index: 3000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.profile-modal-card {
+  background: linear-gradient(135deg, rgba(20, 20, 53, 0.45) 0%, rgba(12, 13, 38, 0.75) 100%);
+  border: 1px solid rgba(244, 63, 94, 0.2);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(6, 6, 26, 0.6);
+  width: 100%;
+  max-width: 440px;
+  box-sizing: border-box;
+  animation: authFadeUp 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) both;
+}
+
+.modal-warning-icon {
+  font-size: 3.5rem;
+  filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.3));
+}
+
+.btn-modal-cancel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-modal-cancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.btn-modal-delete {
+  background: #f43f5e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(244, 63, 94, 0.35);
+}
+
+.btn-modal-delete:hover {
+  background: #e11d48;
+  box-shadow: 0 6px 20px rgba(244, 63, 94, 0.55);
+}

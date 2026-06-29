@@ -1,0 +1,36 @@
+.shopBagItem {
+  margin-bottom: 20px;
+}
+
+.shopBagItem tr {
+  margin-bottom: 20px !important;
+}
+
+.shopBagItem td,
+.shopBagItem th {
+  background: transparent;
+  color: var(--text);
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 14px 12px;
+}
+
+.shopBagItem a {
+  color: var(--muted);
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+}
+
+.shopBagItem a:hover {
+  color: #ef4444;
+  filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.4));
+}
+
+.shopBagItem img {
+  width: 120px;
+  height: 70px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+  border: 1px solid rgba(147, 51, 234, 0.15);
+}

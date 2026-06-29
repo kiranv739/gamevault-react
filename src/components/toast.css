@@ -1,0 +1,126 @@
+.toast-container-wrapper {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 320px;
+  width: 100%;
+  pointer-events: none; /* Let clicks pass through empty spaces of container */
+  box-sizing: border-box;
+}
+
+.custom-toast {
+  pointer-events: auto; /* Enable clicks on the toast card itself */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: rgba(20, 20, 53, 0.9);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 25px rgba(6, 6, 26, 0.5);
+  box-sizing: border-box;
+  width: 100%;
+  
+  /* Slide-in and auto-fade-out CSS sequence */
+  animation: toastSlideIn 0.35s cubic-bezier(0.25, 0.8, 0.25, 1) forwards,
+             toastFadeOut 0.35s cubic-bezier(0.25, 0.8, 0.25, 1) forwards 2.65s;
+}
+
+/* Slide in from right */
+@keyframes toastSlideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Fade and slide out to right */
+@keyframes toastFadeOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+}
+
+/* Types Styling overrides */
+.toast-success {
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15), 0 10px 25px rgba(6, 6, 26, 0.5);
+}
+
+.toast-error {
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  box-shadow: 0 0 15px rgba(244, 63, 94, 0.15), 0 10px 25px rgba(6, 6, 26, 0.5);
+}
+
+.toast-info {
+  border: 1px solid rgba(217, 70, 239, 0.25);
+  box-shadow: 0 0 15px rgba(217, 70, 239, 0.15), 0 10px 25px rgba(6, 6, 26, 0.5);
+}
+
+/* Content block styling */
+.toast-body-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast-icon-prefix {
+  font-size: 1.15rem;
+}
+
+.success-toast-icon {
+  color: #10b981;
+  filter: drop-shadow(0 0 4px rgba(16, 185, 129, 0.4));
+}
+
+.error-toast-icon {
+  color: #f43f5e;
+  filter: drop-shadow(0 0 4px rgba(244, 63, 94, 0.4));
+}
+
+.info-toast-icon {
+  color: var(--accent);
+  filter: drop-shadow(0 0 4px rgba(232, 121, 249, 0.4));
+}
+
+.toast-msg-text {
+  color: var(--text);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  line-height: 1.4;
+}
+
+/* Dismiss Close button */
+.toast-close-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--muted);
+  font-size: 1.25rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+}
+
+.toast-close-btn:hover {
+  color: var(--text);
+  transform: scale(1.15);
+}

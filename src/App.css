@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root{
+  /* Gojo Hollow Purple palette — deep indigo + electric violet + hot magenta */
+  --bg: #06061a;
+  --surface: #0c0d26;
+  --card: #141435;
+  --primary: #9333EA;
+  --primary-hover: #A855F7;
+  --glow: #D946EF;
+  --accent: #E879F9;
+  --magenta: #F0ABFC;
+  --cyan: #E879F9;
+  --text: #F0E6FF;
+  --muted: #9085B7;
+
+  /* Legacy aliases */
+  --bgColor: var(--bg);
+  --second: var(--primary);
+}
+
+h1,h2,h4,p{
+  color: var(--text);
+}
+
+body{
+  position: relative;
+  background: var(--bg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  color: var(--text);
+}
+
+/* Empty States Global Styles */
+.empty-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  background: rgba(20, 20, 53, 0.2);
+  border: 1px dashed rgba(217, 70, 239, 0.15);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+}
+
+.empty-state-icon {
+  font-size: 64px;
+  color: var(--muted);
+  filter: drop-shadow(0 0 10px rgba(144, 133, 183, 0.2));
+  opacity: 0.8;
+}
+
+.empty-state-heading {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-top: 16px;
+}
+
+.empty-state-text {
+  font-size: 0.95rem;
+  color: var(--muted);
+  max-width: 320px;
+  margin-bottom: 24px;
+}
+
+.empty-state-btn {
+  background: linear-gradient(135deg, var(--primary), var(--glow));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 16px rgba(217, 70, 239, 0.3);
+}
+
+.empty-state-btn:hover {
+  background: linear-gradient(135deg, var(--glow), var(--accent));
+  box-shadow: 0 6px 22px rgba(217, 70, 239, 0.5);
+  transform: translateY(-2px);
+}

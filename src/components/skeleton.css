@@ -1,0 +1,68 @@
+.skeleton-card {
+  pointer-events: none !important;
+  background: linear-gradient(135deg, rgba(20, 20, 53, 0.25) 0%, rgba(12, 13, 38, 0.45) 100%) !important;
+  border: 1px solid rgba(217, 70, 239, 0.08) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.skeleton-image {
+  height: 52%;
+  width: 100%;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.skeleton-type {
+  width: 60px;
+  height: 18px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.skeleton-rating {
+  width: 80px;
+  height: 18px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.skeleton-title {
+  height: 16px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.skeleton-price {
+  height: 20px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.skeleton-cart-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Shimmer Animation Keyframe */
+@keyframes shimmerAnim {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmerAnim 1.6s infinite linear;
+}

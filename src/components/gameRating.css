@@ -1,0 +1,9 @@
+.gameCard .gameRating {
+  font-size: 1.3rem;
+  color: var(--accent);
+}
+
+.gameCard .gameRating i {
+  margin-left: 2px;
+  filter: drop-shadow(0 0 5px rgba(232, 121, 249, 0.4));
+}
