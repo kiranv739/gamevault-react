@@ -2,7 +2,8 @@
 
 GameVault is a modern, visually stunning, and highly interactive React-based gaming storefront and library application. Browse, search, filter, and buy your favorite video games with a seamless, responsive user interface.
 
-![GameVault Preview](https://raw.githubusercontent.com/kiranv739/gamevault-react/main/public/assets/cyberpunk.jpg) *(Replace with actual application screenshot)*
+
+![GameVault Preview](<img width="1918" height="857" alt="image" src="https://github.com/user-attachments/assets/8d4e040f-a0ea-4daa-a3c5-019abcbf0e53" />) 
 
 ## ✨ Key Features
 
