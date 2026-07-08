@@ -15,6 +15,7 @@ import { useLibraryStore } from '../store/useLibraryStore';
 import { useCartStore } from '../store/useCartStore';
 import { useToastStore } from '../store/useToastStore';
 import { useAuthStore } from '../store/useAuthStore';
+import { getFeaturedGames } from '../api/games';
 
 function Main() {
   const library = useLibraryStore((state) => state.library);
@@ -22,6 +23,7 @@ function Main() {
   const clearCart = useCartStore((state) => state.clearCart);
   const showToast = useToastStore((state) => state.showToast);
   const logout = useAuthStore((state) => state.logout);
+  const isGuest = useAuthStore((state) => state.isGuest);
   const [active, setActive] = useState(false);
   const [games, setGames] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('All');
@@ -88,6 +90,10 @@ function Main() {
   };
 
   const handleSectionActive = target => {
+    if (target === 'checkout' && isGuest) {
+      showToast('Please login to checkout', 'warning');
+      return;
+    }
     sections.map(section => {
      section.ref.current.classList.remove('active');
      if (section.ref.current.id === target){
@@ -97,25 +103,18 @@ function Main() {
     });
   };
 
-  const fetchData = () => {
+  const fetchData = async () => {
     setIsLoading(true);
-    fetch('http://localhost:3000/api/gamesData.json')
-      .then(res => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return res.json();
-      })
-      .then(data => {
-        setGames(data);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 600);
-      })
-      .catch(e => {
-        console.log(e.message);
+    try {
+      const data = await getFeaturedGames();
+      setGames(data);
+      setTimeout(() => {
         setIsLoading(false);
-      });
+      }, 600);
+    } catch (e) {
+      console.log(e.message);
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {

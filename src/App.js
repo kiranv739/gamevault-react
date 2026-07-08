@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Main from './pages/Main';
 import Login from './pages/Login';
@@ -11,7 +11,12 @@ import { useToastStore } from './store/useToastStore';
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const checkAuth = useAuthStore((state) => state.checkAuth);
   const [authView, setAuthView] = useState('login');
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const toasts = useToastStore((state) => state.toasts);
   const dismissToast = useToastStore((state) => state.dismissToast);

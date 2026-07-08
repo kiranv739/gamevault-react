@@ -15,10 +15,13 @@ function Login({ setAuthView }) {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    login({ email, password, rememberMe }, showToast);
+    setIsSubmitting(true);
+    await login({ email, password, rememberMe }, showToast);
+    setIsSubmitting(false);
   };
 
   const handleGuestClick = () => {
@@ -104,8 +107,8 @@ function Login({ setAuthView }) {
             </button>
           </div>
 
-          <button type="submit" className="w-100 btn-auth mb-3">
-            Login
+          <button type="submit" className="w-100 btn-auth mb-3" disabled={isSubmitting}>
+            {isSubmitting ? 'Logging in...' : 'Login'}
           </button>
 
           {authError && <div className="text-danger text-center small mb-3">{authError}</div>}

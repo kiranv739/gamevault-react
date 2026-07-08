@@ -15,14 +15,17 @@ function Register({ setAuthView }) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Passwords do not match!");
       return;
     }
-    register({ username, email, password }, showToast);
+    setIsSubmitting(true);
+    await register({ username, email, password }, showToast);
+    setIsSubmitting(false);
   };
 
   return (
@@ -110,8 +113,8 @@ function Register({ setAuthView }) {
             />
           </div>
 
-          <button type="submit" className="w-100 btn-auth mb-3">
-            Create Account
+          <button type="submit" className="w-100 btn-auth mb-3" disabled={isSubmitting}>
+            {isSubmitting ? 'Creating Account...' : 'Create Account'}
           </button>
 
           {authError && <div className="text-danger text-center small mb-3">{authError}</div>}

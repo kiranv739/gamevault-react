@@ -21,7 +21,7 @@ app = FastAPI(
 # CORS configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for development/Vercel, restrict later
+    allow_origins=["http://localhost:3000", "https://gamevault-react-beige.vercel.app/"],  # Allow all origins for development/Vercel, restrict later
     allow_credentials=False,  # Must be False when allow_origins contains "*"
     allow_methods=["*"],
     allow_headers=["*"],

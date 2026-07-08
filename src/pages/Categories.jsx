@@ -1,21 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './categories.css';
 import filterListData from '../data/filterListData.js'; 
 import GameCard from '../components/GameCard';
 import SkeletonGrid from '../components/SkeletonGrid';
+import { getGames } from '../api/games';
 
-function Categories({ games, reference, selectedGenre, setSelectedGenre, searchQuery, onGameClick, isLoading, onClearFilters }) {
+function Categories({ reference, selectedGenre, setSelectedGenre, searchQuery, onGameClick, onClearFilters }) {
   const [filters] = useState(filterListData);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // 1. Calculate active matches dynamically during render
-  const filteredGames = games.filter((game) => {
-    const matchesGenre = selectedGenre === 'All' || game.category === selectedGenre;
-    const matchesSearch =
-      !searchQuery ||
-      game.title.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesGenre && matchesSearch;
-  });
+  // Pagination and data states
+  const [localGames, setLocalGames] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [isLoadingLocal, setIsLoadingLocal] = useState(false);
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery);
+
+  // Debounce search query by 300ms
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchQuery]);
+
+  // Fetch function
+  const fetchGamesData = async (search, genre, targetPage, append = false) => {
+    setIsLoadingLocal(true);
+    try {
+      const data = await getGames(search, genre, targetPage);
+      if (append) {
+        setLocalGames(prev => {
+          const combined = [...prev];
+          data.forEach(item => {
+            if (!combined.some(g => g._id === item._id)) {
+              combined.push(item);
+            }
+          });
+          return combined;
+        });
+      } else {
+        setLocalGames(data);
+      }
+      // If we receive less than 20 games (backend limit is 20), we reached the end
+      setHasMore(data.length === 20);
+    } catch (error) {
+      console.error('Error fetching games in Categories:', error);
+    } finally {
+      setIsLoadingLocal(false);
+    }
+  };
+
+  // Reset page and fetch when genre or search query changes
+  useEffect(() => {
+    setPage(1);
+    fetchGamesData(debouncedSearchQuery, selectedGenre, 1, false);
+  }, [debouncedSearchQuery, selectedGenre]);
+
+  // Fetch next page when page increments
+  useEffect(() => {
+    if (page > 1) {
+      fetchGamesData(debouncedSearchQuery, selectedGenre, page, true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   return (
     <section id="categories" className="categories" ref={reference}>
@@ -71,14 +122,30 @@ function Categories({ games, reference, selectedGenre, setSelectedGenre, searchQ
         </div>
 
         {/* Games Grid Row / Loading Loader */}
-        {isLoading ? (
+        {isLoadingLocal && page === 1 ? (
           <SkeletonGrid count={8} />
         ) : (
           <div className="row">
-            {filteredGames.length > 0 ? (
-              filteredGames.map((game) => (
-                <GameCard key={game._id} game={game} onGameClick={onGameClick} />
-              ))
+            {localGames.length > 0 ? (
+              <>
+                {localGames.map((game) => (
+                  <GameCard key={game._id} game={game} onGameClick={onGameClick} />
+                ))}
+                
+                {/* Pagination "Load More" Button */}
+                {hasMore && (
+                  <div className="col-12 text-center mt-4 mb-4">
+                    <button
+                      type="button"
+                      className="empty-state-btn"
+                      onClick={() => setPage(prev => prev + 1)}
+                      disabled={isLoadingLocal}
+                    >
+                      {isLoadingLocal ? 'Loading...' : 'Load More'}
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="col-12">
                 <div className="empty-state-container py-5 text-center">
