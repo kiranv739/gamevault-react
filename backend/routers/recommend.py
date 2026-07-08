@@ -15,7 +15,7 @@ router = APIRouter()
 class RecommendRequest(BaseModel):
     game_ids: List[int]
 
-@router.post("")
+@router.post("/")
 def get_recommendations(
     request: RecommendRequest,
     current_user: models.User = Depends(auth.get_current_user),
