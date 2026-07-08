@@ -19,10 +19,14 @@ function SideMenu({ active, sectionActive })
     
   return (
     <div className={`sideMenu ${active ? 'active': undefined}`}>
-      <a href="" className="logo">
+      <button 
+        type="button" 
+        className="btn btn-link p-0 text-decoration-none logo"
+        onClick={() => sectionActive('home')}
+      >
         <i className="bi bi-safe2-fill"></i>
         <span className="brand">GameVault</span>
-      </a>
+      </button>
       <ul className='nav'>
        {
         navData.map(item => (
@@ -33,28 +37,28 @@ function SideMenu({ active, sectionActive })
 
       <ul className="social">
         <li>
-          <a href='#'>
-           <i class="bi bi-instagram"></i>
-          </a>
+          <button type="button" className="btn btn-link p-0 text-decoration-none">
+           <i className="bi bi-instagram"></i>
+          </button>
         </li>
         <li>
-          <a href='#'>
+          <button type="button" className="btn btn-link p-0 text-decoration-none">
            <i className="bi bi-twitter-x"></i>
-          </a>
+          </button>
         </li>
         <li>
-          <a href='#'>
+          <button type="button" className="btn btn-link p-0 text-decoration-none">
            <i className="bi bi-youtube"></i>
-          </a>
+          </button>
         </li>
         <li>
-          <a href='#' className='share'>
+          <button type="button" className="btn btn-link p-0 text-decoration-none share">
            <i className="bi bi-share"></i>
-          </a>
+          </button>
         </li>
       </ul>
 
-      
+
     </div>
   )
 }

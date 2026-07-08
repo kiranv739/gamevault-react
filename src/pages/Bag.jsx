@@ -5,16 +5,13 @@ import ShopBagItem from '../components/ShopBagitem';
 function Bag({ games, reference, onCheckout, onSectionSwitch }) {
   const [total, setTotal] = useState(0);
 
-  const handleTotalPayment = () => {
-  return games
-    .map(game => game.price * (1 - game.discount))
-    .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
-    .toFixed(2);
-};
-
-useEffect(() => {
-  setTotal(handleTotalPayment());
-}, [games]);
+  useEffect(() => {
+    const sum = games
+      .map(game => game.price * (1 - game.discount))
+      .reduce((accumulator, currentValue) => accumulator + currentValue, 0)
+      .toFixed(2);
+    setTotal(sum);
+  }, [games]);
 
   return (
     <section id="bag" className="bag" ref={reference}>

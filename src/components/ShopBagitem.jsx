@@ -22,9 +22,9 @@ function ShopBagItem({ game, index }) {
       <td>{game.discount * 100}%</td>
       <td>${(game.price * (1 - game.discount)).toFixed(2)}</td>
       <td>
-        <a href="#" onClick={() => handleRemoveFromBag(game)}>
+        <button type="button" className="btn btn-link p-0 text-decoration-none" onClick={() => handleRemoveFromBag(game)}>
           <i className="bi bi-trash"></i>
-        </a>
+        </button>
       </td>
     </tr>
   );
