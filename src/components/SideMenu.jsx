@@ -20,7 +20,7 @@ function SideMenu({ active, sectionActive })
   return (
     <div className={`sideMenu ${active ? 'active': undefined}`}>
       <a href="" className="logo">
-        <i className="bi bi-controller"></i>
+        <i className="bi bi-safe2-fill"></i>
         <span className="brand">GameVault</span>
       </a>
       <ul className='nav'>

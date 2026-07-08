@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import './header.css';
-import { AppContext } from '../App';
+import { useLibraryStore } from '../store/useLibraryStore';
+import { useCartStore } from '../store/useCartStore';
+import { useAuthStore } from '../store/useAuthStore';
 import monke from '../images/monke.jpg';
 
 function Header({ toggleActive, onSearch, onProfile, onOrders, onLogout, searchQuery, onWishlistClick, onCartClick }) {
-  const { library, bag, currentUser } = useContext(AppContext);
+  const library = useLibraryStore((state) => state.library);
+  const bag = useCartStore((state) => state.bag);
+  const user = useAuthStore((state) => state.user);
   const [localSearchQuery, setLocalSearchQuery] = useState('');
   const [isMobileSearchExpanded, setIsMobileSearchExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -93,9 +97,9 @@ function Header({ toggleActive, onSearch, onProfile, onOrders, onLogout, searchQ
 
         {/* User Dropdown */}
         <div className="user-dropdown-wrapper d-flex align-items-center gap-2">
-          {currentUser && (
+          {user && (
             <span className="header-username d-none d-md-inline text-capitalize" style={{ fontWeight: 800, fontSize: '0.85rem', color: 'var(--text)' }}>
-              {currentUser.username}
+              {user.username}
             </span>
           )}
           <button

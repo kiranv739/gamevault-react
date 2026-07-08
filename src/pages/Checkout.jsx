@@ -1,9 +1,12 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import './checkout.css';
-import { AppContext } from '../App';
+import { useCartStore } from '../store/useCartStore';
+import { useToastStore } from '../store/useToastStore';
 
 function Checkout({ reference, onPlaceOrder }) {
-  const { bag, setBag, showToast } = useContext(AppContext);
+  const bag = useCartStore((state) => state.bag);
+  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  const showToast = useToastStore((state) => state.showToast);
   const [paymentMethod, setPaymentMethod] = useState('Card');
   
   // Card Details States
@@ -23,8 +26,7 @@ function Checkout({ reference, onPlaceOrder }) {
   const discountSaved = subtotal - total;
 
   const handleRemoveItem = (id) => {
-    setBag(bag.filter((game) => game._id !== id));
-    showToast('Removed from cart', 'info');
+    removeFromCart(id, showToast);
   };
 
   const handleCardNumberChange = (e) => {

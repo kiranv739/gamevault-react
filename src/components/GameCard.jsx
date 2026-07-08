@@ -1,10 +1,19 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import './gameCard.css';
 import GameRating from './GameRating';
-import { AppContext } from '../App';
+import { useLibraryStore } from '../store/useLibraryStore';
+import { useCartStore } from '../store/useCartStore';
+import { useToastStore } from '../store/useToastStore';
 
 function GameCard({ game, onGameClick }) {
-  const { library, setLibrary, bag, setBag, showToast } = useContext(AppContext);
+  const library = useLibraryStore((state) => state.library);
+  const addToLibrary = useLibraryStore((state) => state.addToLibrary);
+  const removeFromLibrary = useLibraryStore((state) => state.removeFromLibrary);
+
+  const bag = useCartStore((state) => state.bag);
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const showToast = useToastStore((state) => state.showToast);
 
   const isInLibrary = library.some((item) => item._id === game._id);
   const isInBag = bag.some((item) => item._id === game._id);
@@ -12,26 +21,19 @@ function GameCard({ game, onGameClick }) {
   const handleAddToLibrary = (e, gameItem) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!isInLibrary) {
-      setLibrary([...library, gameItem]);
-      showToast('Added to wishlist ♥', 'success');
-    }
+    addToLibrary(gameItem, showToast);
   };
 
   const handleRemoveFromLibrary = (e, gameItem) => {
     e.preventDefault();
     e.stopPropagation();
-    setLibrary(library.filter((item) => item._id !== gameItem._id));
-    showToast('Removed from wishlist', 'info');
+    removeFromLibrary(gameItem._id, showToast);
   };
   
   const handleAddToBag = (e, gameItem) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!isInBag) {
-      setBag([...bag, gameItem]);
-      showToast('Added to cart ✓', 'success');
-    }
+    addToCart(gameItem, showToast);
   };
 
   return (
@@ -60,8 +62,13 @@ function GameCard({ game, onGameClick }) {
         </a>
 
         <div className="gameFeature">
-          <span className="gameType">{game.level}</span>
-          <GameRating rating={game.rating} />
+          <span className="gameType">{game.category}</span>
+          <div className="d-flex align-items-center gap-2">
+            <GameRating rating={game.rating} />
+            <span className="rating-number" style={{ fontSize: '0.8rem', fontWeight: 800, color: 'var(--glow)' }}>
+              {game.rating.toFixed(1)}
+            </span>
+          </div>
         </div>
 
         {/* Clickable Game Title */}
@@ -79,11 +86,11 @@ function GameCard({ game, onGameClick }) {
               <span className="discount">
                 <i>{game.discount * 100}%</i>
               </span>
-              <span className="prevPrice">₹{game.price.toFixed(2)}</span>
+              <span className="prevPrice">₹{Math.round(game.price).toLocaleString('en-IN')}</span>
             </>
           )}
           <span className="currentPrice">
-            ₹{((1 - game.discount) * game.price).toFixed(2)}
+            ₹{Math.round((1 - game.discount) * game.price).toLocaleString('en-IN')}
           </span>
         </div>
 

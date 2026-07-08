@@ -1,13 +1,14 @@
-import React ,{ useContext } from 'react';
+import React from 'react';
 import './shopBagitem.css';
-import { AppContext } from '../App';
+import { useCartStore } from '../store/useCartStore';
+import { useToastStore } from '../store/useToastStore';
 
 function ShopBagItem({ game, index }) {
-    const { bag, setBag, showToast } = useContext(AppContext);
+    const removeFromCart = useCartStore((state) => state.removeFromCart);
+    const showToast = useToastStore((state) => state.showToast);
 
-    const handelRemoveFromBag = game => {
-      setBag(bag.filter(item => item._id !== game._id));
-      showToast('Removed from cart', 'info');
+    const handleRemoveFromBag = game => {
+      removeFromCart(game._id, showToast);
     };
   
   return (
@@ -21,8 +22,8 @@ function ShopBagItem({ game, index }) {
       <td>{game.discount * 100}%</td>
       <td>${(game.price * (1 - game.discount)).toFixed(2)}</td>
       <td>
-        <a href="#" onClick={() => handelRemoveFromBag(game)}>
-          <i class="bi bi-trash"></i>
+        <a href="#" onClick={() => handleRemoveFromBag(game)}>
+          <i className="bi bi-trash"></i>
         </a>
       </td>
     </tr>

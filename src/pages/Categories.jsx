@@ -6,6 +6,7 @@ import SkeletonGrid from '../components/SkeletonGrid';
 
 function Categories({ games, reference, selectedGenre, setSelectedGenre, searchQuery, onGameClick, isLoading, onClearFilters }) {
   const [filters] = useState(filterListData);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // 1. Calculate active matches dynamically during render
   const filteredGames = games.filter((game) => {
@@ -20,19 +21,52 @@ function Categories({ games, reference, selectedGenre, setSelectedGenre, searchQ
     <section id="categories" className="categories" ref={reference}>
       <div className="container-fluid mt-2">
         {/* Filters Row */}
-        <div className="row">
-          <div className="col-12 d-flex align-items-center justify-content-start">
-            <ul className="filters">
-              {filters.map((filter) => (
-                <li
-                  key={filter._id}
-                  className={filter.name === selectedGenre ? 'active' : undefined}
-                  onClick={() => setSelectedGenre?.(filter.name)}
-                >
-                  {filter.name}
-                </li>
-              ))}
-            </ul>
+        <div className="row mb-4">
+          <div className="col-12 d-flex align-items-center justify-content-start gap-3">
+            <div className="category-filter-dropdown-wrapper">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className={`filter-dropdown-btn ${selectedGenre !== 'All' ? 'active' : ''}`}
+                type="button"
+              >
+                <i className="bi bi-funnel-fill me-2"></i>
+                {selectedGenre === 'All' ? 'Filter Games' : `Genre: ${selectedGenre}`}
+                <i className={`bi bi-chevron-down ms-2 dropdown-arrow-icon ${isDropdownOpen ? 'open' : ''}`}></i>
+              </button>
+
+              {isDropdownOpen && (
+                <>
+                  <div className="filter-dropdown-overlay" onClick={() => setIsDropdownOpen(false)}></div>
+                  <div className="filter-dropdown-menu fade-in">
+                    {filters.filter(f => f.name !== 'All').map((filter) => (
+                      <button
+                        key={filter.id || filter._id}
+                        onClick={() => {
+                          setSelectedGenre?.(filter.name);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`filter-dropdown-item ${selectedGenre === filter.name ? 'selected' : ''}`}
+                        type="button"
+                      >
+                        {filter.name}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
+            {selectedGenre !== 'All' && (
+              <button 
+                onClick={() => setSelectedGenre?.('All')} 
+                className="active-filter-chip"
+                type="button"
+                aria-label="Clear filter"
+              >
+                <span>{selectedGenre}</span>
+                <i className="bi bi-x-lg ms-2"></i>
+              </button>
+            )}
           </div>
         </div>
 

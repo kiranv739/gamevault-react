@@ -1,9 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import './profile.css';
-import { AppContext } from '../App';
+import { useLibraryStore } from '../store/useLibraryStore';
+import { useCartStore } from '../store/useCartStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 function Profile({ reference, onNavigate }) {
-  const { library, bag, currentUser } = useContext(AppContext);
+  const library = useLibraryStore((state) => state.library);
+  const bag = useCartStore((state) => state.bag);
+  const user = useAuthStore((state) => state.user);
   const [isPasswordExpanded, setIsPasswordExpanded] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   
@@ -15,8 +19,8 @@ function Profile({ reference, onNavigate }) {
   // Local state for orders count
   const [ordersCount] = useState(1);
 
-  const initial = currentUser?.username 
-    ? currentUser.username.charAt(0).toUpperCase() 
+  const initial = user?.username 
+    ? user.username.charAt(0).toUpperCase() 
     : 'G';
 
   const handlePasswordSubmit = (e) => {
@@ -40,8 +44,8 @@ function Profile({ reference, onNavigate }) {
               {initial}
             </div>
             <div className="profile-meta text-center text-md-start flex-grow-1">
-              <h3 className="profile-username mb-1 text-capitalize">{currentUser?.username || 'Guest Gamer'}</h3>
-              <p className="profile-email text-muted mb-3">{currentUser?.email || 'guest@gamestore.local'}</p>
+              <h3 className="profile-username mb-1 text-capitalize">{user?.username || 'Guest Gamer'}</h3>
+              {user?.email && <p className="profile-email text-muted mb-3">{user.email}</p>}
               <button className="btn-edit-profile py-2 px-4" type="button">
                 <i className="bi bi-pencil-square me-2"></i>Edit Profile
               </button>

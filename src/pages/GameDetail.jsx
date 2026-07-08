@@ -1,11 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import './gameDetail.css';
-import { AppContext } from '../App';
+import { useLibraryStore } from '../store/useLibraryStore';
+import { useCartStore } from '../store/useCartStore';
+import { useToastStore } from '../store/useToastStore';
 import GameRating from '../components/GameRating';
 import GameCard from '../components/GameCard';
 
 function GameDetail({ game, games, onClose }) {
-  const { library, setLibrary, bag, setBag, showToast } = useContext(AppContext);
+  const library = useLibraryStore((state) => state.library);
+  const addToLibrary = useLibraryStore((state) => state.addToLibrary);
+  const removeFromLibrary = useLibraryStore((state) => state.removeFromLibrary);
+
+  const bag = useCartStore((state) => state.bag);
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const showToast = useToastStore((state) => state.showToast);
   const [activeTab, setActiveTab] = useState('About');
 
   // Escape key handler to close the modal
@@ -29,20 +38,15 @@ function GameDetail({ game, games, onClose }) {
   const toggleLibrary = (e) => {
     e.stopPropagation();
     if (isInLibrary) {
-      setLibrary(library.filter((item) => item._id !== game._id));
-      showToast('Removed from wishlist', 'info');
+      removeFromLibrary(game._id, showToast);
     } else {
-      setLibrary([...library, game]);
-      showToast('Added to wishlist ♥', 'success');
+      addToLibrary(game, showToast);
     }
   };
 
   const handleAddToBag = (e) => {
     e.stopPropagation();
-    if (!isInBag) {
-      setBag([...bag, game]);
-      showToast('Added to cart ✓', 'success');
-    }
+    addToCart(game, showToast);
   };
 
   // Dummy screenshot array

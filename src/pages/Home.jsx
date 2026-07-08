@@ -6,21 +6,7 @@ import SkeletonCard from '../components/SkeletonCard';
 import SkeletonGrid from '../components/SkeletonGrid';
 
 function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, isLoading }) {
-  const [activeGenre, setActiveGenre] = useState('All');
   const [visibleCount, setVisibleCount] = useState(8);
-
-  const genres = ['All', 'RPG', 'MOBA', 'Battle', 'Racing', 'Fighting'];
-
-  // 1. Handle Genre Chip Clicks
-  const handleGenreClick = (genre) => {
-    setActiveGenre(genre);
-    if (onGenreFilter) {
-      onGenreFilter(genre);
-    }
-    if (onSectionSwitch) {
-      onSectionSwitch('categories');
-    }
-  };
 
   // 2. Filter On Sale games (discount > 0), limit to 6
   const onSaleGames = games.filter((game) => game.discount > 0).slice(0, 6);
@@ -42,22 +28,7 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
           {games && games.length > 0 && <GameSwiper games={games} onGameClick={onGameClick} />}
         </div>
 
-        {/* 1. GENRE QUICK FILTER CHIPS */}
-        <div className="row my-4">
-          <div className="col-12">
-            <div className="genre-chips-container">
-              {genres.map((genre) => (
-                <button
-                  key={genre}
-                  onClick={() => handleGenreClick(genre)}
-                  className={`genre-chip ${activeGenre === genre ? 'active' : ''}`}
-                >
-                  {genre}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
+
 
         {/* 2. ON SALE SECTION */}
         <div className="section-container mb-5">
@@ -74,55 +45,25 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
               </button>
             </div>
           </div>
-          <div className="scrollable-strip">
-            {isLoading ? (
-              Array.from({ length: 4 }).map((_, index) => (
-                <SkeletonCard key={`sale-skeleton-${index}`} />
-              ))
-            ) : (
-              onSaleGames.map((game) => (
-                <GameCard 
-                  key={`sale-${game._id}`} 
-                  game={game} 
-                  onGameClick={onGameClick} 
-                />
-              ))
-            )}
-          </div>
-        </div>
-
-        {/* 3. ALL GAMES GRID */}
-        <div className="section-container mb-5">
-          <div className="row mb-3">
-            <div className="col-12">
-              <h2 className="sectionTitle">All Games</h2>
-            </div>
-          </div>
-          {isLoading ? (
-            <SkeletonGrid count={8} />
-          ) : (
-            <>
-              <div className="all-games-grid">
-                {games.slice(0, visibleCount).map((game) => (
+          <div className="scrollable-strip-wrapper">
+            <div className="scrollable-strip">
+              {isLoading ? (
+                Array.from({ length: 4 }).map((_, index) => (
+                  <SkeletonCard key={`sale-skeleton-${index}`} />
+                ))
+              ) : (
+                onSaleGames.map((game) => (
                   <GameCard 
-                    key={`all-${game._id}`} 
+                    key={`sale-${game._id}`} 
                     game={game} 
                     onGameClick={onGameClick} 
                   />
-                ))}
-              </div>
-              {visibleCount < games.length && (
-                <div className="row mt-4">
-                  <div className="col-12 d-flex justify-content-center">
-                    <button onClick={handleLoadMore} className="load-more-btn">
-                      Load More <i className="bi bi-arrow-down-short"></i>
-                    </button>
-                  </div>
-                </div>
+                ))
               )}
-            </>
-          )}
+            </div>
+          </div>
         </div>
+
 
         {/* 4. TOP RATED SECTION */}
         <div className="section-container mb-4">
@@ -131,20 +72,22 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
               <h2 className="sectionTitle">⭐ Top Rated</h2>
             </div>
           </div>
-          <div className="scrollable-strip">
-            {isLoading ? (
-              Array.from({ length: 4 }).map((_, index) => (
-                <SkeletonCard key={`rated-skeleton-${index}`} />
-              ))
-            ) : (
-              topRatedGames.map((game) => (
-                <GameCard 
-                  key={`rated-${game._id}`} 
-                  game={game} 
-                  onGameClick={onGameClick} 
-                />
-              ))
-            )}
+          <div className="scrollable-strip-wrapper">
+            <div className="scrollable-strip">
+              {isLoading ? (
+                Array.from({ length: 4 }).map((_, index) => (
+                  <SkeletonCard key={`rated-skeleton-${index}`} />
+                ))
+              ) : (
+                topRatedGames.map((game) => (
+                  <GameCard 
+                    key={`rated-${game._id}`} 
+                    game={game} 
+                    onGameClick={onGameClick} 
+                  />
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>

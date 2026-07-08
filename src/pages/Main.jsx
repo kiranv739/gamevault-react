@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
-import { AppContext } from '../App';
+import React, { useState, useEffect, useRef } from 'react';
 import './main.css';
 import SideMenu from '../components/SideMenu';
 import Header from './Header';
@@ -12,9 +11,17 @@ import Checkout from './Checkout';
 import OrderConfirmation from './OrderConfirmation';
 import Profile from './Profile';
 import Library from './Library';
+import { useLibraryStore } from '../store/useLibraryStore';
+import { useCartStore } from '../store/useCartStore';
+import { useToastStore } from '../store/useToastStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 function Main() {
-  const { library, bag, setBag, showToast, logout } = useContext(AppContext);
+  const library = useLibraryStore((state) => state.library);
+  const bag = useCartStore((state) => state.bag);
+  const clearCart = useCartStore((state) => state.clearCart);
+  const showToast = useToastStore((state) => state.showToast);
+  const logout = useAuthStore((state) => state.logout);
   const [active, setActive] = useState(false);
   const [games, setGames] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState('All');
@@ -130,7 +137,7 @@ function Main() {
   };
 
   const handleLogout = () => {
-    logout?.();
+    logout(showToast);
   };
 
   const handlePlaceOrder = () => {
@@ -143,7 +150,7 @@ function Main() {
       });
       return uniqueGames;
     });
-    setBag([]);
+    clearCart();
     showToast('Order placed successfully! 🎉', 'success');
     handleSectionActive('confirmation');
   };

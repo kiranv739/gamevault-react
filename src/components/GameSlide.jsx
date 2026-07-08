@@ -14,7 +14,7 @@ function GameSlide({ game, active, onGameClick }) {
               onClick={(e) => { e.preventDefault(); onGameClick?.(game); }}
               className="orderBtn"
             >
-              Order now!
+              View Game
             </a>
           </div>
         </div>

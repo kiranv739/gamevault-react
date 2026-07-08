@@ -3,95 +3,37 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import React, { useState } from 'react';
 import './App.css';
 import Main from './pages/Main';
-import useToast from './hooks/useToast';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import ToastContainer from './components/ToastContainer';
-import Auth from './pages/Auth';
-
-export const AppContext = React.createContext();
+import { useAuthStore } from './store/useAuthStore';
+import { useToastStore } from './store/useToastStore';
 
 function App() {
-  const [library, setLibrary] = useState([]);
-  const [bag, setBag] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [authError, setAuthError] = useState('');
-  
-  const { toasts, showToast, dismissToast } = useToast();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const [authView, setAuthView] = useState('login');
 
-  const handleAuthSubmit = (formData, mode) => {
-    if (mode === 'login') {
-      if (!formData.email || !formData.password) {
-        setAuthError('Please fill in all fields');
-        return;
-      }
-      // Simulate successful login
-      const usernameFromEmail = formData.email.split('@')[0];
-      setCurrentUser({
-        username: usernameFromEmail,
-        email: formData.email
-      });
-      setIsAuthenticated(true);
-      setAuthError('');
-      showToast(`Welcome back, ${usernameFromEmail}! 🎮`, 'success');
-    } else {
-      if (!formData.username || !formData.email || !formData.password) {
-        setAuthError('Please fill in all fields');
-        return;
-      }
-      // Simulate successful registration
-      setCurrentUser({
-        username: formData.username,
-        email: formData.email
-      });
-      setIsAuthenticated(true);
-      setAuthError('');
-      showToast(`Account created! Welcome, ${formData.username}! 🚀`, 'success');
-    }
-  };
+  const toasts = useToastStore((state) => state.toasts);
+  const dismissToast = useToastStore((state) => state.dismissToast);
 
-  const handleGuestMode = () => {
-    setCurrentUser({
-      username: 'Guest Gamer',
-      email: 'guest@gamestore.local'
-    });
-    setIsAuthenticated(true);
-    setAuthError('');
-    showToast('Entered as Guest Gamer 🎮', 'success');
-  };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    setCurrentUser(null);
-    showToast('Logged out successfully', 'info');
-  };
+  if (isAuthenticated) {
+    return (
+      <>
+        <Main />
+        <ToastContainer toasts={toasts} dismissToast={dismissToast} />
+      </>
+    );
+  }
 
   return (
-    <AppContext.Provider 
-      value={{ 
-        library, 
-        setLibrary, 
-        bag, 
-        setBag, 
-        showToast, 
-        currentUser, 
-        isAuthenticated, 
-        logout: handleLogout 
-      }}
-    >
-      <Main />
-      
-      {/* Auth overlay shown when not authenticated */}
-      {!isAuthenticated && (
-        <Auth 
-          error={authError} 
-          onAuthSubmit={handleAuthSubmit} 
-          onGuestMode={handleGuestMode} 
-          onClose={handleGuestMode} // close defaults to guest mode entry
-        />
+    <>
+      {authView === 'login' ? (
+        <Login setAuthView={setAuthView} />
+      ) : (
+        <Register setAuthView={setAuthView} />
       )}
-
       <ToastContainer toasts={toasts} dismissToast={dismissToast} />
-    </AppContext.Provider>
+    </>
   );
 }
 

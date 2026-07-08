@@ -107,21 +107,29 @@
   color: var(--text);
   letter-spacing: 0.5px;
   line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .gameCard .gamePrice {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   margin-top: auto;
+  flex-wrap: wrap;
 }
 
 .gameCard .discount {
   background: linear-gradient(135deg, #f43f5e, #be123c);
-  padding: 2px 8px;
-  border-radius: 6px;
+  padding: 3px 10px;
+  border-radius: 8px;
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 850;
+  margin-right: 4px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 10px rgba(244, 63, 94, 0.2);
 }
 
 .gameCard .prevPrice {
