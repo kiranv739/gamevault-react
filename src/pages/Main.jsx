@@ -194,7 +194,7 @@ function Main() {
               isLoading={isLoading}
               onClearFilters={handleClearFilters}
             />
-            <Mylibrary games={library} reference={wishlistRef} onGameClick={setSelectedGame} onSectionSwitch={handleSectionActive} />
+            <Mylibrary games={library} reference={wishlistRef} onGameClick={setSelectedGame} onSectionSwitch={handleSectionActive} onSearchGame={handleSearch} />
             <Library games={purchasedGames} reference={libraryRef} onGameClick={setSelectedGame} onSectionSwitch={handleSectionActive} />
             <Bag games={bag} reference={bagRef} onCheckout={() => handleSectionActive('checkout')} onSectionSwitch={handleSectionActive} />
             <Checkout reference={checkoutRef} onPlaceOrder={handlePlaceOrder} />

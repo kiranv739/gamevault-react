@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from database import engine, Base
 import models
-from routers import auth, games, library, cart
+from routers import auth, games, library, cart, recommend
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -32,6 +32,7 @@ app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
 app.include_router(games.router, prefix="/games", tags=["Games"])
 app.include_router(library.router, prefix="/library", tags=["Library"])
 app.include_router(cart.router, prefix="/cart", tags=["Cart"])
+app.include_router(recommend.router, prefix="/recommend", tags=["Recommendations"])
 
 @app.get("/")
 def read_root():

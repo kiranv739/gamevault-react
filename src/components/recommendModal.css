@@ -1,0 +1,149 @@
+.recommend-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(6, 6, 26, 0.85);
+  backdrop-filter: blur(16px);
+  z-index: 2100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.recommend-modal-content {
+  background: var(--surface, #0c0d26);
+  border: 1px solid rgba(217, 70, 239, 0.25);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 650px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(217, 70, 239, 0.15);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  animation: modalSlideIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.recommend-modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(217, 70, 239, 0.15);
+}
+
+.recommend-modal-header .modal-title {
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffffff 40%, var(--magenta, #F0ABFC) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+.recommend-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.text-glow {
+  color: var(--glow, #D946EF) !important;
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.recommendation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recommendation-card {
+  background: rgba(20, 20, 53, 0.4);
+  border: 1px solid rgba(217, 70, 239, 0.1);
+  border-radius: 14px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.recommendation-card:hover {
+  background: rgba(20, 20, 53, 0.6);
+  border-color: rgba(217, 70, 239, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(217, 70, 239, 0.1);
+}
+
+.recommendation-card .game-title {
+  color: var(--text, #F0E6FF);
+}
+
+.recommendation-card .genre-badge {
+  background: linear-gradient(135deg, var(--primary, #9333EA), var(--glow, #D946EF)) !important;
+  border: none;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+}
+
+.reason-text {
+  font-style: italic;
+  color: var(--muted, #9085B7) !important;
+  line-height: 1.4;
+}
+
+.search-game-btn {
+  background: transparent;
+  border: 1px solid rgba(217, 70, 239, 0.4);
+  color: var(--text, #F0E6FF);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 6px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.search-game-btn:hover {
+  background: linear-gradient(135deg, var(--primary, #9333EA), var(--glow, #D946EF));
+  border-color: transparent;
+  box-shadow: 0 0 10px rgba(217, 70, 239, 0.4);
+  color: #fff;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
