@@ -21,7 +21,7 @@ function SideMenu({ active, sectionActive })
     <div className={`sideMenu ${active ? 'active': undefined}`}>
       <button 
         type="button" 
-        className="btn btn-link p-0 text-decoration-none logo"
+        className="logo"
         onClick={() => sectionActive('home')}
       >
         <i className="bi bi-safe2-fill"></i>
@@ -37,22 +37,22 @@ function SideMenu({ active, sectionActive })
 
       <ul className="social">
         <li>
-          <button type="button" className="btn btn-link p-0 text-decoration-none">
+          <button type="button" className="social-link-btn">
            <i className="bi bi-instagram"></i>
           </button>
         </li>
         <li>
-          <button type="button" className="btn btn-link p-0 text-decoration-none">
+          <button type="button" className="social-link-btn">
            <i className="bi bi-twitter-x"></i>
           </button>
         </li>
         <li>
-          <button type="button" className="btn btn-link p-0 text-decoration-none">
+          <button type="button" className="social-link-btn">
            <i className="bi bi-youtube"></i>
           </button>
         </li>
         <li>
-          <button type="button" className="btn btn-link p-0 text-decoration-none share">
+          <button type="button" className="social-link-btn share">
            <i className="bi bi-share"></i>
           </button>
         </li>

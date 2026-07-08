@@ -17,6 +17,11 @@
 }
 
 .sideMenu .logo {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
   position: relative;
   text-decoration: none;
   display: inline-flex;
@@ -57,7 +62,19 @@
   width: 100%;
 }
 
-.sideMenu .nav li a {
+.nav-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+}
+
+.sideMenu .nav li a,
+.sideMenu .nav li .nav-link-btn {
   text-decoration: none;
   color: var(--muted);
   font-size: 1.05em;
@@ -75,14 +92,16 @@
   border: 1px solid transparent;
 }
 
-.sideMenu .nav li a:hover {
+.sideMenu .nav li a:hover,
+.sideMenu .nav li .nav-link-btn:hover {
   color: var(--text);
   background: rgba(217, 70, 239, 0.08);
   border-color: rgba(217, 70, 239, 0.25);
   transform: translateX(4px);
 }
 
-.sideMenu .nav li a.active {
+.sideMenu .nav li a.active,
+.sideMenu .nav li .nav-link-btn.active {
   color: var(--text);
   background: linear-gradient(135deg, rgba(147, 51, 234, 0.25), rgba(217, 70, 239, 0.15));
   border-color: rgba(217, 70, 239, 0.4);
@@ -101,14 +120,28 @@
   padding: 0 10px;
 }
 
-.sideMenu .social li a {
+.social-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  font-family: inherit;
+}
+
+.sideMenu .social li a,
+.sideMenu .social li .social-link-btn {
   text-decoration: none;
   color: var(--muted);
   font-size: 1.25rem;
   transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.sideMenu .social li a:hover {
+.sideMenu .social li a:hover,
+.sideMenu .social li .social-link-btn:hover {
   color: var(--glow);
   filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.6));
   transform: scale(1.1) translateY(-2px);
@@ -147,7 +180,8 @@
   display: none;
 }
 
-.sideMenu.active .nav li a {
+.sideMenu.active .nav li a,
+.sideMenu.active .nav li .nav-link-btn {
   font-size: 1.3em;
   justify-content: center;
   padding: 14px 0;
