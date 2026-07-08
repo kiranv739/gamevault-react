@@ -12,7 +12,14 @@ if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is not set")
 
 # Create engine. 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,        # test connection before using it
+    pool_recycle=300,          # recycle connections every 5 mins
+    pool_size=5,
+    max_overflow=2,
+    connect_args={"sslmode": "require"}
+)
 
 # Create session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
