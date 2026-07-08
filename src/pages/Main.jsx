@@ -90,7 +90,7 @@ function Main() {
   const handleSectionActive = target => {
     sections.map(section => {
      section.ref.current.classList.remove('active');
-     if (section.ref.current.id==target){
+     if (section.ref.current.id === target){
       section.ref.current.classList.add('active');
      }
      return section;

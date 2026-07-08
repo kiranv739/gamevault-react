@@ -67,9 +67,9 @@ useEffect(() => {
            <div className="col-lg-10 d-flex justify-content-end">
             <div className="payment">
              Total: ₹{total}
-              <a href="#" onClick={(e) => { e.preventDefault(); onCheckout?.(); }}>
+              <button type="button" className="btn btn-link p-0" onClick={(e) => { e.preventDefault(); onCheckout?.(); }}>
                <span>Proceed to Checkout</span> <i className="bi bi-wallet-fill"></i>
-              </a>
+              </button>
              </div>
            </div>
           </div>

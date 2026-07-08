@@ -37,9 +37,14 @@ function Header({ toggleActive, onSearch, onProfile, onOrders, onLogout, searchQ
     <header className="main-header">
       {/* Left side: Menu Toggle */}
       <div className="header-left">
-        <a href="#" className="menu-btn" onClick={toggleActive} aria-label="Toggle menu">
+        <button 
+          type="button" 
+          className="btn btn-link p-0 menu-btn" 
+          onClick={toggleActive} 
+          aria-label="Toggle menu"
+        >
           <i className="bi bi-sliders"></i>
-        </a>
+        </button>
       </div>
 
       {/* Center: Search Bar (Responsive) */}
@@ -70,30 +75,30 @@ function Header({ toggleActive, onSearch, onProfile, onOrders, onLogout, searchQ
         </button>
 
         {/* Wishlist */}
-        <a 
-          href="#" 
+        <button 
+          type="button"
           onClick={(e) => { e.preventDefault(); onWishlistClick?.(); }}
-          className="header-action-icon" 
+          className="btn btn-link p-0 header-action-icon" 
           aria-label="Wishlist"
         >
           <i className="bi bi-heart-fill"></i>
           {library && library.length > 0 && (
             <span className="count-badge">{library.length}</span>
           )}
-        </a>
+        </button>
 
         {/* Cart */}
-        <a 
-          href="#" 
+        <button 
+          type="button"
           onClick={(e) => { e.preventDefault(); onCartClick?.(); }}
-          className="header-action-icon" 
+          className="btn btn-link p-0 header-action-icon" 
           aria-label="Cart"
         >
           <i className="bi bi-bag-fill"></i>
           {bag && bag.length > 0 && (
             <span className="count-badge">{bag.length}</span>
           )}
-        </a>
+        </button>
 
         {/* User Dropdown */}
         <div className="user-dropdown-wrapper d-flex align-items-center gap-2">

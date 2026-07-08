@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './home.css';
 import GameSwiper from '../components/GameSwiper';
 import GameCard from '../components/GameCard';
 import SkeletonCard from '../components/SkeletonCard';
-import SkeletonGrid from '../components/SkeletonGrid';
 
 function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, isLoading }) {
-  const [visibleCount, setVisibleCount] = useState(8);
-
   // 2. Filter On Sale games (discount > 0), limit to 6
   const onSaleGames = games.filter((game) => game.discount > 0).slice(0, 6);
 
@@ -15,10 +12,6 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
   const topRatedGames = [...games]
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 6);
-
-  const handleLoadMore = () => {
-    setVisibleCount((prev) => prev + 8);
-  };
 
   return (
     <section id="home" className="home active" ref={reference}>

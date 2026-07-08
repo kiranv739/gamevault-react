@@ -99,9 +99,9 @@ function Login({ setAuthView }) {
                 Remember me
               </label>
             </div>
-            <a href="#" className="forgot-password-link" onClick={(e) => e.preventDefault()}>
+            <button type="button" className="btn btn-link p-0 forgot-password-link" onClick={(e) => e.preventDefault()}>
               Forgot Password?
-            </a>
+            </button>
           </div>
 
           <button type="submit" className="w-100 btn-auth mb-3">
