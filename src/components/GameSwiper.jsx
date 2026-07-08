@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Swiper, SwiperSlide} from 'swiper/react';
-import { Navigation, Pagination, Scrollbar, A11y, EffectCoverflow, Autoplay } from 'swiper/modules';
+import { Navigation, EffectCoverflow, Autoplay } from 'swiper/modules';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -12,11 +12,6 @@ import GameSlide from './GameSlide';
 
 // Ensure the component name starts with an uppercase letter
 function GameSwiper({ games, onGameClick }) { 
-    const [active, setActive] = useState(false);
-    
-    const handelToggleVideo = () => {
-        setActive(!active);
-    };
     
     return (
        
@@ -44,7 +39,6 @@ function GameSwiper({ games, onGameClick }) {
             {games.map(game => (
              <SwiperSlide key={game._id}> 
                 <GameSlide 
-                  active={active} 
                   game={game}
                   onGameClick={onGameClick}
                 />

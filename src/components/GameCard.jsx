@@ -49,9 +49,9 @@ function GameCard({ game, onGameClick }) {
         </div>
 
         {/* Wishlist Heart Icon */}
-        <a 
-          href="#"
-          className={`like ${isInLibrary ? 'active' : undefined}`}
+        <button 
+          type="button"
+          className={`btn btn-link p-0 text-decoration-none like ${isInLibrary ? 'active' : ''}`}
           onClick={(e) =>
             isInLibrary
               ? handleRemoveFromLibrary(e, game)
@@ -59,7 +59,7 @@ function GameCard({ game, onGameClick }) {
           }
         >
           <i className="bi bi-heart-fill"></i>
-        </a>
+        </button>
 
         <div className="gameFeature">
           <span className="gameType">{game.category}</span>
@@ -95,13 +95,13 @@ function GameCard({ game, onGameClick }) {
         </div>
 
         {/* Add to Cart Icon Button */}
-        <a 
-          href="#" 
-          className={`addBag ${isInBag ? 'active' : ''}`}
+        <button 
+          type="button"
+          className={`btn btn-link p-0 text-decoration-none addBag ${isInBag ? 'active' : ''}`}
           onClick={(e) => handleAddToBag(e, game)}
         >
           <i className={`bi ${isInBag ? 'bi-bag-check-fill' : 'bi-bag-plus-fill'}`}></i>
-        </a>
+        </button>
       </div>
     </div>
   );
