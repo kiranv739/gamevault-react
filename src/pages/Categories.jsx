@@ -125,7 +125,7 @@ function Categories({ reference, selectedGenre, setSelectedGenre, searchQuery, o
         {isLoadingLocal && page === 1 ? (
           <SkeletonGrid count={8} />
         ) : (
-          <div className="row">
+          <div className="categories-grid">
             {localGames.length > 0 ? (
               <>
                 {localGames.map((game) => (

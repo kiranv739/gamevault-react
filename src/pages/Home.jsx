@@ -1,10 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './home.css';
 import GameSwiper from '../components/GameSwiper';
 import GameCard from '../components/GameCard';
 import SkeletonCard from '../components/SkeletonCard';
+import { useLibraryStore } from '../store/useLibraryStore';
+import { useCartStore } from '../store/useCartStore';
+import { useAuthStore } from '../store/useAuthStore';
+import { useRecommendStore } from '../store/useRecommendStore';
 
-function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, isLoading }) {
+function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, isLoading, onSearchGame }) {
+  const isGuest = useAuthStore((state) => state.isGuest);
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+  const wishlist = useLibraryStore((state) => state.wishlist);
+  const bag = useCartStore((state) => state.bag);
+
+  const recommendations = useRecommendStore((state) => state.recommendations);
+  const hasFetched = useRecommendStore((state) => state.hasFetched);
+  const loadingRecs = useRecommendStore((state) => state.isLoading);
+  const recsError = useRecommendStore((state) => state.error);
+  const fetchRecommendations = useRecommendStore((state) => state.fetchRecommendations);
+
+  useEffect(() => {
+    if (!isAuthenticated || isGuest) return;
+    if (hasFetched) return;
+    if (wishlist.length === 0 && bag.length === 0) return;
+    
+    const gameIds = [
+      ...wishlist.slice(0, 5).map(g => g._id),
+      ...bag.slice(0, 5).map(g => g._id)
+    ];
+    const genres = [...new Set(wishlist.map(g => g.category).filter(Boolean))];
+    
+    fetchRecommendations(gameIds, genres);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, isGuest, hasFetched, fetchRecommendations]);
+
   // 2. Filter On Sale games (discount > 0), limit to 6
   const onSaleGames = games.filter((game) => game.discount > 0).slice(0, 6);
 
@@ -12,6 +42,8 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
   const topRatedGames = [...games]
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 6);
+
+  const isLibraryAndCartEmpty = wishlist.length === 0 && bag.length === 0;
 
   return (
     <section id="home" className="home active" ref={reference}>
@@ -21,7 +53,58 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
           {games && games.length > 0 && <GameSwiper games={games} onGameClick={onGameClick} />}
         </div>
 
-
+        {/* Recommended For You Section */}
+        {!isGuest && (
+          isLibraryAndCartEmpty ? (
+            <div className="section-container mb-5 animate-fade-in">
+              <div className="row mb-3">
+                <div className="col-12">
+                  <h2 className="sectionTitle mb-0">Recommended For You</h2>
+                </div>
+              </div>
+              <div className="empty-state-container py-5 text-center">
+                <i className="bi bi-heart empty-state-icon"></i>
+                <h3 className="empty-state-heading mt-3">Add games to your wishlist to get personalized recommendations</h3>
+                <button 
+                  onClick={() => onSectionSwitch?.('categories')} 
+                  className="empty-state-btn mt-3"
+                  type="button"
+                >
+                  Browse Games
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="section-container mb-5 animate-fade-in">
+              <div className="row mb-3">
+                <div className="col-12">
+                  <h2 className="sectionTitle mb-0">✨ Recommended For You</h2>
+                </div>
+              </div>
+              <div className="scrollable-strip-wrapper">
+                <div className="scrollable-strip">
+                  {loadingRecs ? (
+                    Array.from({ length: 4 }).map((_, index) => (
+                      <SkeletonCard key={`rec-skeleton-${index}`} />
+                    ))
+                  ) : recsError || recommendations.length === 0 ? (
+                    <div className="w-100 text-center py-4">
+                      <p className="text-muted">No recommendations available.</p>
+                    </div>
+                  ) : (
+                    recommendations.map((game) => (
+                      <GameCard 
+                        key={`rec-${game._id}`} 
+                        game={game} 
+                        onGameClick={onGameClick} 
+                      />
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          )
+        )}
 
         {/* 2. ON SALE SECTION */}
         <div className="section-container mb-5">
@@ -56,7 +139,6 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
             </div>
           </div>
         </div>
-
 
         {/* 4. TOP RATED SECTION */}
         <div className="section-container mb-4">

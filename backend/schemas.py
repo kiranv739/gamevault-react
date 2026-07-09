@@ -30,6 +30,13 @@ class GameResponse(BaseModel):
     discount: int
     image_url: Optional[str] = None
     description: Optional[str] = None
+    publisher: Optional[str] = None
+    developer: Optional[str] = None
+    release_date: Optional[str] = None
+    esrb_rating: Optional[str] = None
+    platforms: Optional[str] = None
+    min_requirements: Optional[str] = None
+    recommended_requirements: Optional[str] = None
     cached_at: datetime
 
     class Config:
@@ -40,6 +47,7 @@ class LibraryResponse(BaseModel):
     user_id: int
     game_id: int
     added_at: datetime
+    is_purchased: bool
     game: GameResponse
 
     class Config:

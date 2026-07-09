@@ -18,7 +18,8 @@ import { useAuthStore } from '../store/useAuthStore';
 import { getFeaturedGames } from '../api/games';
 
 function Main() {
-  const library = useLibraryStore((state) => state.library);
+  const wishlist = useLibraryStore((state) => state.wishlist);
+  const purchasedGames = useLibraryStore((state) => state.purchasedGames);
   const bag = useCartStore((state) => state.bag);
   const clearCart = useCartStore((state) => state.clearCart);
   const showToast = useToastStore((state) => state.showToast);
@@ -29,7 +30,7 @@ function Main() {
   const [selectedGenre, setSelectedGenre] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedGame, setSelectedGame] = useState(null);
-  const [purchasedGames, setPurchasedGames] = useState([]);
+  const [currentOrderGames, setCurrentOrderGames] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const homeRef = useRef();
@@ -95,9 +96,11 @@ function Main() {
       return;
     }
     sections.map(section => {
-     section.ref.current.classList.remove('active');
-     if (section.ref.current.id === target){
-      section.ref.current.classList.add('active');
+     if (section.ref && section.ref.current) {
+       section.ref.current.classList.remove('active');
+       if (section.ref.current.id === target){
+        section.ref.current.classList.add('active');
+       }
      }
      return section;
     });
@@ -139,17 +142,8 @@ function Main() {
     logout(showToast);
   };
 
-  const handlePlaceOrder = () => {
-    setPurchasedGames(prev => {
-      const uniqueGames = [...prev];
-      bag.forEach(item => {
-        if (!uniqueGames.some(g => g._id === item._id)) {
-          uniqueGames.push(item);
-        }
-      });
-      return uniqueGames;
-    });
-    clearCart();
+  const handlePlaceOrder = (purchased) => {
+    setCurrentOrderGames(purchased || bag);
     showToast('Order placed successfully! 🎉', 'success');
     handleSectionActive('confirmation');
   };
@@ -183,6 +177,7 @@ function Main() {
               onGenreFilter={setSelectedGenre}
               onGameClick={setSelectedGame}
               isLoading={isLoading}
+              onSearchGame={handleSearch}
             />
             <Categories 
               games={games} 
@@ -194,13 +189,13 @@ function Main() {
               isLoading={isLoading}
               onClearFilters={handleClearFilters}
             />
-            <Mylibrary games={library} reference={wishlistRef} onGameClick={setSelectedGame} onSectionSwitch={handleSectionActive} onSearchGame={handleSearch} />
+            <Mylibrary games={wishlist} reference={wishlistRef} onGameClick={setSelectedGame} onSectionSwitch={handleSectionActive} />
             <Library games={purchasedGames} reference={libraryRef} onGameClick={setSelectedGame} onSectionSwitch={handleSectionActive} />
             <Bag games={bag} reference={bagRef} onCheckout={() => handleSectionActive('checkout')} onSectionSwitch={handleSectionActive} />
             <Checkout reference={checkoutRef} onPlaceOrder={handlePlaceOrder} />
             <OrderConfirmation 
               reference={confirmationRef} 
-              purchasedGames={purchasedGames}
+              purchasedGames={currentOrderGames}
               onGoToLibrary={() => handleSectionActive('library')}
               onContinueShopping={() => handleSectionActive('home')}
             />

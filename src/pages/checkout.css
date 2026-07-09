@@ -16,11 +16,11 @@
 }
 
 .checkout-card {
-  background: linear-gradient(135deg, rgba(20, 20, 53, 0.4) 0%, rgba(12, 13, 38, 0.65) 100%);
+  background: linear-gradient(135deg, rgba(15, 15, 26, 0.4) 0%, rgba(10, 10, 15, 0.65) 100%);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(217, 70, 239, 0.16);
+  border: 1px solid rgba(139, 92, 246, 0.16);
   border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(6, 6, 26, 0.6);
+  box-shadow: 0 12px 40px rgba(10, 10, 15, 0.6);
   color: var(--text);
 }
 
@@ -30,13 +30,13 @@
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: var(--text);
-  border-bottom: 1px solid rgba(217, 70, 239, 0.15);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
   padding-bottom: 14px;
 }
 
 /* Order Item Row styling */
 .order-item-row {
-  border-bottom: 1px solid rgba(217, 70, 239, 0.08);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.08);
   padding-bottom: 12px;
 }
 
@@ -50,7 +50,7 @@
   height: 48px;
   object-fit: cover;
   border-radius: 8px;
-  border: 1px solid rgba(217, 70, 239, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.15);
 }
 
 .item-title {
@@ -81,7 +81,7 @@
 
 .divider-line {
   height: 1px;
-  background: rgba(217, 70, 239, 0.15);
+  background: rgba(139, 92, 246, 0.15);
 }
 
 /* Price Details labels */
@@ -115,8 +115,8 @@
 
 .payment-option-card {
   flex: 1;
-  background: rgba(20, 20, 53, 0.35);
-  border: 1px solid rgba(217, 70, 239, 0.15);
+  background: rgba(15, 15, 26, 0.35);
+  border: 1px solid rgba(139, 92, 246, 0.15);
   border-radius: 12px;
   padding: 12px;
   display: flex;
@@ -129,14 +129,14 @@
 }
 
 .payment-option-card:hover {
-  border-color: rgba(217, 70, 239, 0.45);
-  background: rgba(217, 70, 239, 0.08);
+  border-color: rgba(139, 92, 246, 0.45);
+  background: rgba(139, 92, 246, 0.08);
 }
 
 .payment-option-card.active {
   border-color: var(--glow);
-  background: linear-gradient(135deg, rgba(147, 51, 234, 0.25), rgba(217, 70, 239, 0.15));
-  box-shadow: 0 0 16px rgba(217, 70, 239, 0.25);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(139, 92, 246, 0.15));
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.25);
 }
 
 .payment-radio {
@@ -166,8 +166,8 @@
 }
 
 .checkout-input {
-  background: rgba(12, 13, 38, 0.6) !important;
-  border: 1px solid rgba(217, 70, 239, 0.18) !important;
+  background: rgba(10, 10, 15, 0.6) !important;
+  border: 1px solid rgba(139, 92, 246, 0.18) !important;
   color: var(--text) !important;
   border-radius: 12px !important;
   padding: 10px 16px !important;
@@ -176,8 +176,8 @@
 }
 
 .checkout-input:focus {
-  border-color: rgba(217, 70, 239, 0.5) !important;
-  box-shadow: 0 0 16px rgba(217, 70, 239, 0.2) !important;
+  border-color: rgba(139, 92, 246, 0.5) !important;
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.2) !important;
   outline: none !important;
 }
 
@@ -204,12 +204,12 @@ select.checkout-input option {
   border-radius: 14px;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 6px 20px rgba(217, 70, 239, 0.35);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.35);
 }
 
 .btn-place-order:hover {
   background: linear-gradient(135deg, var(--glow), var(--accent));
-  box-shadow: 0 8px 28px rgba(217, 70, 239, 0.55);
+  box-shadow: 0 8px 28px rgba(139, 92, 246, 0.55);
   transform: translateY(-2px);
 }
 

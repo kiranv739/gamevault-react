@@ -4,11 +4,11 @@
   margin-bottom: 25px;
   width: auto;
   height: 420px;
-  border: 1px solid rgba(217, 70, 239, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.15);
   border-radius: 24px;
-  background: linear-gradient(135deg, rgba(20, 20, 53, 0.5) 0%, rgba(12, 13, 38, 0.75) 100%);
+  background: linear-gradient(135deg, rgba(15, 15, 26, 0.7) 0%, rgba(10, 10, 15, 0.9) 100%);
   backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px rgba(6, 6, 26, 0.5),
+  box-shadow: 0 8px 32px rgba(10, 10, 15, 0.5),
               inset 0 1px 1px rgba(255, 255, 255, 0.05);
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
@@ -17,9 +17,9 @@
 }
 
 .gameCard:hover {
-  border-color: rgba(217, 70, 239, 0.45);
-  box-shadow: 0 0 25px rgba(217, 70, 239, 0.25),
-              0 15px 35px rgba(6, 6, 26, 0.6);
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.25),
+              0 15px 35px rgba(10, 10, 15, 0.6);
   transform: translateY(-6px);
 }
 
@@ -50,7 +50,7 @@
   right: 32px;
   width: 36px;
   height: 36px;
-  background: rgba(6, 6, 26, 0.8);
+  background: rgba(10, 10, 15, 0.8);
   backdrop-filter: blur(8px);
   border-radius: 50%;
   color: var(--muted);
@@ -58,23 +58,23 @@
   justify-content: center;
   align-items: center;
   transition: all 0.3s ease;
-  border: 1px solid rgba(217, 70, 239, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.2);
   z-index: 10;
   text-decoration: none;
 }
 
 .gameCard .like:hover {
   color: var(--accent);
-  border-color: rgba(217, 70, 239, 0.4);
-  background: rgba(217, 70, 239, 0.15);
+  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.15);
   transform: scale(1.1);
 }
 
 .gameCard .like.active {
   color: var(--glow);
-  background: rgba(217, 70, 239, 0.25);
-  border-color: rgba(217, 70, 239, 0.5);
-  box-shadow: 0 0 12px rgba(217, 70, 239, 0.4);
+  background: rgba(139, 92, 246, 0.25);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
 }
 
 .gameCard span {
@@ -88,14 +88,15 @@
 }
 
 .gameCard .gameType {
-  background: linear-gradient(135deg, rgba(147, 51, 234, 0.25), rgba(217, 70, 239, 0.25));
-  border: 1px solid rgba(217, 70, 239, 0.2);
+  background: rgba(139, 92, 246, 0.3);
+  border: 1px solid rgba(139, 92, 246, 0.5);
   padding: 4px 12px;
   border-radius: 8px;
   font-weight: 700;
   font-size: 0.75rem;
   letter-spacing: 1px;
   text-transform: uppercase;
+  color: #c084fc;
 }
 
 .gameCard .gameTitle {
@@ -118,23 +119,26 @@
   align-items: center;
   gap: 12px;
   margin-top: auto;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .gameCard .discount {
-  background: linear-gradient(135deg, #f43f5e, #be123c);
+  background: #7c3aed;
   padding: 3px 10px;
   border-radius: 8px;
   font-size: 0.75rem;
   font-weight: 850;
   margin-right: 4px;
   letter-spacing: 0.5px;
-  box-shadow: 0 4px 10px rgba(244, 63, 94, 0.2);
+  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.3);
 }
 
 .gameCard .prevPrice {
   text-decoration: line-through;
-  text-decoration-color: #f43f5e;
+  text-decoration-color: var(--muted);
   text-decoration-thickness: 1.5px;
   font-size: 0.8rem;
   color: var(--muted);
@@ -145,6 +149,17 @@
   font-weight: 900;
   color: var(--magenta);
   text-shadow: 0 0 15px rgba(240, 171, 252, 0.35);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.gameCard .gamePrice-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  gap: 8px;
 }
 
 .gameCard .addBag {
@@ -161,13 +176,13 @@
   border-radius: 50%;
   font-size: 1.1rem;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 4px 12px rgba(217, 70, 239, 0.3);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.1);
   text-decoration: none;
 }
 
 .gameCard .addBag:hover {
   background: linear-gradient(135deg, var(--glow), var(--accent));
-  box-shadow: 0 0 20px rgba(217, 70, 239, 0.6);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.6);
   transform: scale(1.15) rotate(90deg);
 }

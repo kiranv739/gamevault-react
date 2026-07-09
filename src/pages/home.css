@@ -18,9 +18,9 @@ section.home .sectionTitle {
 }
 
 .genre-chip {
-  background: rgba(20, 20, 53, 0.4);
+  background: rgba(15, 15, 26, 0.4);
   color: var(--muted);
-  border: 1px solid rgba(217, 70, 239, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.15);
   padding: 8px 24px;
   border-radius: 20px;
   font-weight: 700;
@@ -34,16 +34,16 @@ section.home .sectionTitle {
 
 .genre-chip:hover {
   color: var(--text);
-  border-color: rgba(217, 70, 239, 0.4);
+  border-color: rgba(139, 92, 246, 0.4);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(217, 70, 239, 0.15);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
 }
 
 .genre-chip.active {
   color: var(--text);
   background: linear-gradient(135deg, var(--primary), var(--glow));
   border-color: transparent;
-  box-shadow: 0 6px 20px rgba(217, 70, 239, 0.45);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.45);
   transform: translateY(-2px);
 }
 
@@ -87,7 +87,7 @@ section.home .sectionTitle {
   right: 0;
   height: 100%;
   width: 120px;
-  background: linear-gradient(to right, transparent, rgba(6, 6, 26, 0.95) 90%);
+  background: linear-gradient(to right, transparent, rgba(10, 10, 15, 0.95) 90%);
   pointer-events: none;
   z-index: 2;
 }
@@ -116,7 +116,7 @@ section.home .sectionTitle {
 /* Responsive CSS Grid Override for All Games Grid */
 .all-games-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 24px;
   padding: 10px 0;
 }
@@ -128,24 +128,12 @@ section.home .sectionTitle {
   flex: 0 0 100% !important;
 }
 
-@media (min-width: 768px) {
-  .all-games-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1200px) {
-  .all-games-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 /* Load More Button */
 .load-more-btn {
-  background: rgba(20, 20, 53, 0.4);
+  background: rgba(15, 15, 26, 0.4);
   backdrop-filter: blur(8px);
   color: var(--text);
-  border: 1px solid rgba(217, 70, 239, 0.25);
+  border: 1px solid rgba(139, 92, 246, 0.25);
   padding: 12px 32px;
   border-radius: 14px;
   font-weight: 700;
@@ -160,9 +148,9 @@ section.home .sectionTitle {
 }
 
 .load-more-btn:hover {
-  border-color: rgba(217, 70, 239, 0.5);
-  background: rgba(217, 70, 239, 0.1);
-  box-shadow: 0 0 20px rgba(217, 70, 239, 0.25);
+  border-color: rgba(139, 92, 246, 0.5);
+  background: rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
   transform: translateY(-2px);
 }
 

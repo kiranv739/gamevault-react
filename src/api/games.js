@@ -12,6 +12,13 @@ export const mapApiGameToClient = (game) => {
     price: game.price || 0,
     img: game.image_url || '',
     active: true,
+    publisher: game.publisher || '',
+    developer: game.developer || '',
+    release_date: game.release_date || '',
+    esrb_rating: game.esrb_rating || '',
+    platforms: game.platforms || '',
+    min_requirements: game.min_requirements || '',
+    recommended_requirements: game.recommended_requirements || '',
   };
 };
 

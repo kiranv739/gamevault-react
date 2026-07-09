@@ -5,29 +5,31 @@ import { useLibraryStore } from '../store/useLibraryStore';
 import { useCartStore } from '../store/useCartStore';
 import { useToastStore } from '../store/useToastStore';
 
-function GameCard({ game, onGameClick }) {
-  const library = useLibraryStore((state) => state.library);
-  const addToLibrary = useLibraryStore((state) => state.addToLibrary);
-  const removeFromLibrary = useLibraryStore((state) => state.removeFromLibrary);
+function GameCard({ game, onGameClick, isLibraryCard = false }) {
+  const wishlist = useLibraryStore((state) => state.wishlist);
+  const purchasedGames = useLibraryStore((state) => state.purchasedGames);
+  const addToWishlist = useLibraryStore((state) => state.addToWishlist);
+  const removeFromWishlist = useLibraryStore((state) => state.removeFromWishlist);
 
   const bag = useCartStore((state) => state.bag);
   const addToCart = useCartStore((state) => state.addToCart);
 
   const showToast = useToastStore((state) => state.showToast);
 
-  const isInLibrary = library.some((item) => item._id === game._id);
+  const isInWishlist = wishlist.some((item) => item._id === game._id);
+  const isPurchased = purchasedGames.some((item) => item._id === game._id);
   const isInBag = bag.some((item) => item._id === game._id);
 
-  const handleAddToLibrary = (e, gameItem) => {
+  const handleAddToWishlist = (e, gameItem) => {
     e.preventDefault();
     e.stopPropagation();
-    addToLibrary(gameItem, showToast);
+    addToWishlist(gameItem, showToast);
   };
 
-  const handleRemoveFromLibrary = (e, gameItem) => {
+  const handleRemoveFromWishlist = (e, gameItem) => {
     e.preventDefault();
     e.stopPropagation();
-    removeFromLibrary(gameItem._id, showToast);
+    removeFromWishlist(gameItem._id, showToast);
   };
   
   const handleAddToBag = (e, gameItem) => {
@@ -48,18 +50,32 @@ function GameCard({ game, onGameClick }) {
           <img src={game.img} alt={game.title} className="img-fluid" />
         </div>
 
-        {/* Wishlist Heart Icon */}
-        <button 
-          type="button"
-          className={`btn btn-link p-0 text-decoration-none like ${isInLibrary ? 'active' : ''}`}
-          onClick={(e) =>
-            isInLibrary
-              ? handleRemoveFromLibrary(e, game)
-              : handleAddToLibrary(e, game)
-          }
-        >
-          <i className="bi bi-heart-fill"></i>
-        </button>
+        {/* Action Badge / Heart Icon */}
+        {isPurchased ? (
+          <button 
+            type="button"
+            className="btn btn-link p-0 text-decoration-none like active"
+            title="Owned"
+            style={{ cursor: 'default' }}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+          >
+            <i className="bi bi-controller"></i>
+          </button>
+        ) : (
+          !isLibraryCard && (
+            <button 
+              type="button"
+              className={`btn btn-link p-0 text-decoration-none like ${isInWishlist ? 'active' : ''}`}
+              onClick={(e) =>
+                isInWishlist
+                  ? handleRemoveFromWishlist(e, game)
+                  : handleAddToWishlist(e, game)
+              }
+            >
+              <i className="bi bi-heart-fill"></i>
+            </button>
+          )
+        )}
 
         <div className="gameFeature">
           <span className="gameType">{game.category}</span>
@@ -73,35 +89,59 @@ function GameCard({ game, onGameClick }) {
 
         {/* Clickable Game Title */}
         <div 
-          className="gameTitle mt-4 mb-3" 
+          className="gameTitle mt-4 mb-1" 
           onClick={() => onGameClick?.(game)}
           style={{ cursor: 'pointer' }}
         >
           {game.title}
         </div>
 
-        <div className="gamePrice">
-          {game.discount !== 0 && (
-            <>
-              <span className="discount">
-                <i>{game.discount * 100}%</i>
-              </span>
-              <span className="prevPrice">₹{Math.round(game.price).toLocaleString('en-IN')}</span>
-            </>
-          )}
-          <span className="currentPrice">
-            ₹{Math.round((1 - game.discount) * game.price).toLocaleString('en-IN')}
-          </span>
-        </div>
+        {game.reason && (
+          <p className="reason-text text small italic mb-3" style={{ fontSize: '0.8rem', lineHeight: '1.4', minHeight: '34px', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+            <i className="bi bi-quote me-1"></i>
+            {game.reason}
+          </p>
+        )}
 
-        {/* Add to Cart Icon Button */}
-        <button 
-          type="button"
-          className={`btn btn-link p-0 text-decoration-none addBag ${isInBag ? 'active' : ''}`}
-          onClick={(e) => handleAddToBag(e, game)}
-        >
-          <i className={`bi ${isInBag ? 'bi-bag-check-fill' : 'bi-bag-plus-fill'}`}></i>
-        </button>
+        {isLibraryCard ? (
+          <div className="d-flex align-items-center mt-auto w-100">
+            <button 
+              type="button" 
+              className="w-100 py-2 btn-place-order d-flex align-items-center justify-content-center gap-2"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); alert(`Starting ${game.title}... 🎮`); }}
+            >
+              <i className="bi bi-play-fill" style={{ fontSize: '1.2rem' }}></i>
+              Play
+            </button>
+          </div>
+        ) : (
+          <div className="gamePrice-row">
+            <div className="gamePrice">
+              {game.discount !== 0 && (
+                <>
+                  <span className="discount">
+                    <i>{game.discount * 100}%</i>
+                  </span>
+                  <span className="prevPrice">₹{Math.round(game.price).toLocaleString('en-IN')}</span>
+                </>
+              )}
+              <span className="currentPrice">
+                ₹{Math.round((1 - game.discount) * game.price).toLocaleString('en-IN')}
+              </span>
+            </div>
+
+            {/* Add to Cart Icon Button */}
+            {!isPurchased && (
+              <button 
+                type="button"
+                className={`btn btn-link p-0 text-decoration-none addBag ${isInBag ? 'active' : ''}`}
+                onClick={(e) => handleAddToBag(e, game)}
+              >
+                <i className={`bi ${isInBag ? 'bi-bag-check-fill' : 'bi-bag-plus-fill'}`}></i>
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

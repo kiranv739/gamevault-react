@@ -1,10 +1,17 @@
 import api from './index';
 import { mapApiGameToClient } from './games';
 
-export const getLibrary = async () => {
-  const response = await api.get('/library');
-  // API returns list of library items. Each item is: { id, user_id, game_id, added_at, game }
+export const getLibrary = async (type = 'all') => {
+  const response = await api.get(`/library?type=${type}`);
   return response.data.map((item) => mapApiGameToClient(item.game));
+};
+
+export const getWishlist = async () => {
+  return getLibrary('wishlist');
+};
+
+export const getPurchasedGames = async () => {
+  return getLibrary('purchased');
 };
 
 export const addToLibrary = async (gameId) => {

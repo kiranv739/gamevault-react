@@ -6,7 +6,7 @@ import { useAuthStore } from '../store/useAuthStore';
 import monke from '../images/monke.jpg';
 
 function Header({ toggleActive, onSearch, onProfile, onOrders, onLogout, searchQuery, onWishlistClick, onCartClick }) {
-  const library = useLibraryStore((state) => state.library);
+  const wishlist = useLibraryStore((state) => state.wishlist);
   const bag = useCartStore((state) => state.bag);
   const user = useAuthStore((state) => state.user);
   const [localSearchQuery, setLocalSearchQuery] = useState('');
@@ -82,8 +82,8 @@ function Header({ toggleActive, onSearch, onProfile, onOrders, onLogout, searchQ
           aria-label="Wishlist"
         >
           <i className="bi bi-heart-fill"></i>
-          {library && library.length > 0 && (
-            <span className="count-badge">{library.length}</span>
+          {wishlist && wishlist.length > 0 && (
+            <span className="count-badge">{wishlist.length}</span>
           )}
         </button>
 

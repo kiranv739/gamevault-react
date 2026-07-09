@@ -5,6 +5,8 @@ import { useCartStore } from '../store/useCartStore';
 import { useToastStore } from '../store/useToastStore';
 import GameRating from '../components/GameRating';
 import GameCard from '../components/GameCard';
+import { getSimilarGames } from '../api/similar';
+import SkeletonCard from '../components/SkeletonCard';
 
 function GameDetail({ game, games, onClose }) {
   const library = useLibraryStore((state) => state.library);
@@ -16,6 +18,28 @@ function GameDetail({ game, games, onClose }) {
 
   const showToast = useToastStore((state) => state.showToast);
   const [activeTab, setActiveTab] = useState('About');
+  const [similarGames, setSimilarGames] = useState([]);
+  const [loadingSimilar, setLoadingSimilar] = useState(false);
+  const [similarError, setSimilarError] = useState(false);
+
+  useEffect(() => {
+    if (activeTab === 'Similar Games' && game) {
+      const fetchSimilar = async () => {
+        setLoadingSimilar(true);
+        setSimilarError(false);
+        try {
+          const data = await getSimilarGames(game._id);
+          setSimilarGames(data);
+        } catch (err) {
+          console.error('Error fetching similar games:', err);
+          setSimilarError(true);
+        } finally {
+          setLoadingSimilar(false);
+        }
+      };
+      fetchSimilar();
+    }
+  }, [activeTab, game]);
 
   // Escape key handler to close the modal
   useEffect(() => {
@@ -51,9 +75,6 @@ function GameDetail({ game, games, onClose }) {
 
   // Dummy screenshot array
   const screenshots = [game.img, game.img, game.img];
-
-  // Placeholder games for Similar Games tab (exclude current game)
-  const similarGames = games.filter((g) => g._id !== game._id).slice(0, 4);
 
   return (
     <div className="game-detail-overlay">
@@ -160,42 +181,62 @@ function GameDetail({ game, games, onClose }) {
                   <p className="description-paragraph">
                     {game.description || "No full description available for this game yet."}
                   </p>
+                  
+                  {/* Game Details Info Grid */}
+                  <div className="game-info-grid mt-4 p-3 rounded" style={{ background: 'rgba(20, 20, 53, 0.3)', border: '1px solid rgba(217, 70, 239, 0.12)' }}>
+                    <div className="row text-center text-md-start">
+                      <div className="col-6 col-md-3 mb-2 mb-md-0">
+                        <span className="text-muted small d-block">Publisher</span>
+                        <strong className="text-white small">{game.publisher || 'N/A'}</strong>
+                      </div>
+                      <div className="col-6 col-md-3 mb-2 mb-md-0">
+                        <span className="text-muted small d-block">Developer</span>
+                        <strong className="text-white small">{game.developer || 'N/A'}</strong>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <span className="text-muted small d-block">Released</span>
+                        <strong className="text-white small">{game.release_date || 'N/A'}</strong>
+                      </div>
+                      <div className="col-6 col-md-3">
+                        <span className="text-muted small d-block">Rating</span>
+                        <strong className="text-white small">{game.esrb_rating || 'N/A'}</strong>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 
               {/* System Requirements Tab */}
               {activeTab === 'System Requirements' && (
-                <div className="reqs-tab-panel table-responsive">
-                  <table className="table system-reqs-table">
-                    <thead>
-                      <tr>
-                        <th>Spec</th>
-                        <th>Minimum Requirements</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><strong>OS</strong></td>
-                        <td>Windows 10/11 (64-bit)</td>
-                      </tr>
-                      <tr>
-                        <td><strong>Processor</strong></td>
-                        <td>Intel Core i5-8400 | AMD Ryzen 5 2600</td>
-                      </tr>
-                      <tr>
-                        <td><strong>Memory</strong></td>
-                        <td>12 GB RAM</td>
-                      </tr>
-                      <tr>
-                        <td><strong>Graphics</strong></td>
-                        <td>NVIDIA GeForce GTX 1060 (6GB) | AMD Radeon RX 580 (8GB)</td>
-                      </tr>
-                      <tr>
-                        <td><strong>Storage</strong></td>
-                        <td>70 GB available space (SSD recommended)</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div className="reqs-tab-panel">
+                  {game.min_requirements || game.recommended_requirements ? (
+                    <div className="row g-4">
+                      {game.min_requirements && (
+                        <div className="col-12 col-md-6">
+                          <div className="p-3 rounded" style={{ background: 'rgba(20, 20, 53, 0.25)', border: '1px solid rgba(217, 70, 239, 0.12)', height: '100%' }}>
+                            <h5 className="text-glow mb-3"><i className="bi bi-cpu me-2"></i>Minimum</h5>
+                            <div className="small" style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', color: '#e0e0e0' }}>
+                              {game.min_requirements}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      {game.recommended_requirements && (
+                        <div className="col-12 col-md-6">
+                          <div className="p-3 rounded" style={{ background: 'rgba(20, 20, 53, 0.25)', border: '1px solid rgba(217, 70, 239, 0.12)', height: '100%' }}>
+                            <h5 className="text-glow mb-3"><i className="bi bi-speedometer2 me-2"></i>Recommended</h5>
+                            <div className="small" style={{ whiteSpace: 'pre-wrap', lineHeight: '1.6', color: '#e0e0e0' }}>
+                              {game.recommended_requirements}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-center py-4">
+                      <p className="text-muted">Requirements not available for this game</p>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -203,12 +244,16 @@ function GameDetail({ game, games, onClose }) {
               {activeTab === 'Similar Games' && (
                 <div className="similar-tab-panel">
                   <div className="similar-games-scroller">
-                    {similarGames.length > 0 ? (
+                    {loadingSimilar ? (
+                      Array.from({ length: 4 }).map((_, index) => (
+                        <SkeletonCard key={`skeleton-${index}`} />
+                      ))
+                    ) : similarError || similarGames.length === 0 ? (
+                      <p className="text-muted">No similar games found.</p>
+                    ) : (
                       similarGames.map((g) => (
                         <GameCard key={`similar-${g._id}`} game={g} />
                       ))
-                    ) : (
-                      <p className="text-muted">No similar games found.</p>
                     )}
                   </div>
                 </div>

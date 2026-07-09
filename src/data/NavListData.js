@@ -9,7 +9,7 @@ const navListData = [
     {
       _id: 2,
       target: 'categories',
-      name: 'Categories',
+      name: 'Discover',
       icon: 'bi-window-stack',
       active: false,
     },

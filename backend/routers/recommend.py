@@ -1,7 +1,7 @@
 import os
 import json
 import ast
-from typing import List
+from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from database import get_db
@@ -13,23 +13,40 @@ from groq import Groq
 router = APIRouter()
 
 class RecommendRequest(BaseModel):
-    game_ids: List[int]
+    game_ids: Optional[List[int]] = []
+    genres: Optional[List[str]] = []
+    limit: Optional[int] = 6
 
-@router.post("/")
+@router.post("")
 def get_recommendations(
     request: RecommendRequest,
     current_user: models.User = Depends(auth.get_current_user),
     db: Session = Depends(get_db)
 ):
+    game_ids = request.game_ids or []
+    genres = request.genres or []
+    limit = request.limit or 6
+
     # Fetch those games from DB to get their titles and genres
-    games = db.query(models.Game).filter(models.Game.id.in_(request.game_ids)).all()
+    games = db.query(models.Game).filter(models.Game.id.in_(game_ids)).all() if game_ids else []
     
-    # If no games found in DB, we can't give high quality recommendations.
-    # But let's build the list from what we have.
-    game_list_str = ", ".join([f"{g.title} ({g.genre or 'Unknown'})" for g in games])
+    # Format user context lists
+    game_list_str = ", ".join([f"{g.title} ({g.genre or 'Unknown'})" for g in games]) if games else "None"
+    genre_list_str = ", ".join(genres) if genres else "None"
     
     system_prompt = "You are a game recommendation engine. Always respond with valid JSON only. No explanation, no markdown, no backticks."
-    user_prompt = f"A user likes these games: {game_list_str}. Recommend 5 similar games with a one-line reason for each. Return ONLY a JSON array in this exact format:\n[\n  {{\n    'title': 'Game Title',\n    'genre': 'Genre',\n    'reason': 'One line reason why they would like this'\n  }}\n]"
+    user_prompt = (
+        f"A user likes these games: {game_list_str}.\n"
+        f"Their preferred genres are: {genre_list_str}.\n"
+        f"Recommend {limit} games they would enjoy with a one-line reason. Return ONLY a JSON array:\n"
+        "[\n"
+        "  {\n"
+        "    'title': 'Game Title',\n"
+        "    'genre': 'Genre',\n"
+        "    'reason': 'One line reason why they would like this'\n"
+        "  }\n"
+        "]"
+    )
     
     try:
         api_key = os.getenv("GROQ_API_KEY")
@@ -56,7 +73,7 @@ def get_recommendations(
                 lines = lines[:-1]
             cleaned_result = "\n".join(lines).strip()
             
-        # Parse JSON. Try standard json first, then ast.literal_eval if it has single quotes or other Python syntax.
+        # Parse JSON
         try:
             recommendations = json.loads(cleaned_result)
         except json.JSONDecodeError:
@@ -69,7 +86,30 @@ def get_recommendations(
         if not isinstance(recommendations, list):
             raise ValueError("Recommendations format is not a list")
             
-        return recommendations
+        matched_games = []
+        for rec in recommendations:
+            title_q = rec.get("title", "")
+            if not title_q:
+                continue
+                
+            # Fuzzy match by title
+            game = db.query(models.Game).filter(
+                models.Game.title.ilike(f"%{title_q}%")
+            ).first()
+            
+            if game:
+                matched_games.append({
+                    "id": game.id,
+                    "title": game.title,
+                    "genre": game.genre,
+                    "rating": game.rating,
+                    "price": game.price,
+                    "discount": game.discount,
+                    "image_url": game.image_url,
+                    "reason": rec.get("reason", "")
+                })
+            
+        return matched_games
         
     except Exception as e:
         print(f"Recommendation service error: {str(e)}")

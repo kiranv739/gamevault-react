@@ -12,7 +12,7 @@ function GameSlide({ game, active, onGameClick }) {
             <button 
               type="button" 
               onClick={(e) => { e.preventDefault(); onGameClick?.(game); }}
-              className="btn btn-link p-0 text-decoration-none orderBtn"
+              className="orderBtn"
             >
               View Game
             </button>

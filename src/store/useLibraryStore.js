@@ -1,33 +1,45 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { getLibrary, addToLibrary as addToLibraryApi, removeFromLibrary as removeFromLibraryApi } from '../api/library';
+import { getWishlist, getPurchasedGames, addToLibrary as addToLibraryApi, removeFromLibrary as removeFromLibraryApi } from '../api/library';
 import { useAuthStore } from './useAuthStore';
 
 export const useLibraryStore = create(
   persist(
     (set, get) => ({
-      library: [],
+      wishlist: [],
+      purchasedGames: [],
       
-      fetchLibrary: async () => {
+      fetchWishlist: async () => {
         const isGuest = useAuthStore.getState().isGuest;
         if (isGuest) return;
         try {
-          const library = await getLibrary();
-          set({ library });
+          const wishlist = await getWishlist();
+          set({ wishlist });
         } catch (error) {
-          console.error('Failed to fetch library:', error);
+          console.error('Failed to fetch wishlist:', error);
         }
       },
       
-      addToLibrary: async (game, showToast) => {
+      fetchPurchasedGames: async () => {
+        const isGuest = useAuthStore.getState().isGuest;
+        if (isGuest) return;
+        try {
+          const purchasedGames = await getPurchasedGames();
+          set({ purchasedGames });
+        } catch (error) {
+          console.error('Failed to fetch purchased games:', error);
+        }
+      },
+      
+      addToWishlist: async (game, showToast) => {
         const isGuest = useAuthStore.getState().isGuest;
         if (isGuest) {
           // Guest mode: local state only
           set((state) => {
-            const isInLibrary = state.library.some((item) => item._id === game._id);
-            if (!isInLibrary) {
+            const isInWishlist = state.wishlist.some((item) => item._id === game._id);
+            if (!isInWishlist) {
               if (showToast) showToast('Added to wishlist ♥', 'success');
-              return { library: [...state.library, game] };
+              return { wishlist: [...state.wishlist, game] };
             }
             return state;
           });
@@ -37,28 +49,28 @@ export const useLibraryStore = create(
         try {
           const savedGame = await addToLibraryApi(game._id);
           set((state) => {
-            const isInLibrary = state.library.some((item) => item._id === savedGame._id);
-            if (!isInLibrary) {
+            const isInWishlist = state.wishlist.some((item) => item._id === savedGame._id);
+            if (!isInWishlist) {
               if (showToast) showToast('Added to wishlist ♥', 'success');
-              return { library: [...state.library, savedGame] };
+              return { wishlist: [...state.wishlist, savedGame] };
             }
             return state;
           });
         } catch (error) {
-          console.error('Failed to add to library API:', error);
+          console.error('Failed to add to wishlist API:', error);
           if (showToast) {
             showToast('Failed to add to wishlist', 'error');
           }
         }
       },
       
-      removeFromLibrary: async (gameId, showToast) => {
+      removeFromWishlist: async (gameId, showToast) => {
         const isGuest = useAuthStore.getState().isGuest;
         if (isGuest) {
           // Guest mode: local state only
           set((state) => {
             if (showToast) showToast('Removed from wishlist', 'info');
-            return { library: state.library.filter((item) => item._id !== gameId) };
+            return { wishlist: state.wishlist.filter((item) => item._id !== gameId) };
           });
           return;
         }
@@ -67,10 +79,10 @@ export const useLibraryStore = create(
           await removeFromLibraryApi(gameId);
           set((state) => {
             if (showToast) showToast('Removed from wishlist', 'info');
-            return { library: state.library.filter((item) => item._id !== gameId) };
+            return { wishlist: state.wishlist.filter((item) => item._id !== gameId) };
           });
         } catch (error) {
-          console.error('Failed to remove from library API:', error);
+          console.error('Failed to remove from wishlist API:', error);
           if (showToast) {
             showToast('Failed to remove from wishlist', 'error');
           }
@@ -78,7 +90,7 @@ export const useLibraryStore = create(
       },
       
       clearLibrary: () => {
-        set({ library: [] });
+        set({ wishlist: [], purchasedGames: [] });
       }
     }),
     {

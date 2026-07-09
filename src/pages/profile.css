@@ -1,8 +1,8 @@
 .profile-card {
-  background: linear-gradient(135deg, rgba(20, 20, 53, 0.25) 0%, rgba(12, 13, 38, 0.45) 100%);
-  border: 1px solid rgba(217, 70, 239, 0.08);
+  background: linear-gradient(135deg, rgba(15, 15, 26, 0.25) 0%, rgba(10, 10, 15, 0.45) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.08);
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(6, 6, 26, 0.3);
+  box-shadow: 0 10px 30px rgba(10, 10, 15, 0.3);
 }
 
 /* 1. Profile Header */
@@ -17,7 +17,7 @@
   font-size: 2.8rem;
   font-weight: 800;
   color: var(--text);
-  box-shadow: 0 0 25px rgba(217, 70, 239, 0.4);
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.4);
   user-select: none;
 }
 
@@ -34,7 +34,7 @@
 
 .btn-edit-profile {
   background: transparent;
-  border: 1px solid rgba(217, 70, 239, 0.35);
+  border: 1px solid rgba(139, 92, 246, 0.35);
   color: var(--text);
   font-weight: 700;
   font-size: 0.85rem;
@@ -44,23 +44,23 @@
 }
 
 .btn-edit-profile:hover {
-  background: rgba(217, 70, 239, 0.08);
+  background: rgba(139, 92, 246, 0.08);
   border-color: var(--glow);
   transform: translateY(-1px);
 }
 
 /* 2. Stats Grid */
 .stats-card {
-  background: linear-gradient(135deg, rgba(20, 20, 53, 0.25) 0%, rgba(12, 13, 38, 0.45) 100%);
-  border: 1px solid rgba(217, 70, 239, 0.08);
+  background: linear-gradient(135deg, rgba(15, 15, 26, 0.25) 0%, rgba(10, 10, 15, 0.45) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.08);
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(6, 6, 26, 0.3);
+  box-shadow: 0 10px 30px rgba(10, 10, 15, 0.3);
   transition: all 0.3s ease;
 }
 
 .stats-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(217, 70, 239, 0.2);
+  border-color: rgba(139, 92, 246, 0.2);
 }
 
 .stats-icon {
@@ -69,7 +69,7 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
-  filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.3));
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.3));
 }
 
 .stats-value {
@@ -99,7 +99,7 @@
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid rgba(217, 70, 239, 0.12) !important;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.12) !important;
   padding: 14px 10px;
 }
 
@@ -109,12 +109,12 @@
   font-size: 0.9rem;
   font-weight: 600;
   padding: 16px 10px;
-  border-bottom: 1px solid rgba(217, 70, 239, 0.05) !important;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.05) !important;
 }
 
 .order-id-badge {
-  background: rgba(217, 70, 239, 0.08);
-  border: 1px solid rgba(217, 70, 239, 0.2);
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.2);
   color: var(--accent);
   padding: 4px 10px;
   border-radius: 8px;
@@ -181,7 +181,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(6, 6, 26, 0.85);
+  background: rgba(10, 10, 15, 0.85);
   backdrop-filter: blur(15px);
   z-index: 3000;
   display: flex;
@@ -192,10 +192,10 @@
 }
 
 .profile-modal-card {
-  background: linear-gradient(135deg, rgba(20, 20, 53, 0.45) 0%, rgba(12, 13, 38, 0.75) 100%);
+  background: linear-gradient(135deg, rgba(15, 15, 26, 0.45) 0%, rgba(10, 10, 15, 0.75) 100%);
   border: 1px solid rgba(244, 63, 94, 0.2);
   border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(6, 6, 26, 0.6);
+  box-shadow: 0 20px 50px rgba(10, 10, 15, 0.6);
   width: 100%;
   max-width: 440px;
   box-sizing: border-box;

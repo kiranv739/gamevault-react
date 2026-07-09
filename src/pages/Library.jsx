@@ -15,7 +15,7 @@ function Library({ games, reference, onGameClick, onSectionSwitch }) {
               <div className="empty-state-container py-5 text-center">
                 <i className="bi bi-controller empty-state-icon"></i>
                 <h3 className="empty-state-heading mt-3">Your library is empty</h3>
-                <p className="empty-state-text mb-4">Go buy some games and start playing!</p>
+                <p className="empty-state-text mb-4">Purchase games to see them here</p>
                 <button 
                   onClick={() => onSectionSwitch?.('home')} 
                   className="empty-state-btn"
@@ -26,7 +26,7 @@ function Library({ games, reference, onGameClick, onSectionSwitch }) {
               </div>
             </div>
           ) : (
-            games.map(game => <GameCard key={game._id} game={game} onGameClick={onGameClick} />)
+            games.map(game => <GameCard key={game._id} game={game} onGameClick={onGameClick} isLibraryCard={true} />)
           )}
         </div>
       </div>

@@ -33,7 +33,8 @@ export const useAuthStore = create(
           // Sync library and cart from backend
           const { useLibraryStore } = await import('./useLibraryStore');
           const { useCartStore } = await import('./useCartStore');
-          useLibraryStore.getState().fetchLibrary();
+          useLibraryStore.getState().fetchWishlist();
+          useLibraryStore.getState().fetchPurchasedGames();
           useCartStore.getState().fetchCart();
 
           if (showToast) {
@@ -70,7 +71,8 @@ export const useAuthStore = create(
           // Sync library and cart from backend
           const { useLibraryStore } = await import('./useLibraryStore');
           const { useCartStore } = await import('./useCartStore');
-          useLibraryStore.getState().fetchLibrary();
+          useLibraryStore.getState().fetchWishlist();
+          useLibraryStore.getState().fetchPurchasedGames();
           useCartStore.getState().fetchCart();
 
           if (showToast) {
@@ -119,11 +121,13 @@ export const useAuthStore = create(
           authError: ''
         });
         
-        // Clear library and cart stores
+        // Clear library, cart and recommendations stores
         const { useLibraryStore } = await import('./useLibraryStore');
         const { useCartStore } = await import('./useCartStore');
+        const { useRecommendStore } = await import('./useRecommendStore');
         useLibraryStore.getState().clearLibrary();
         useCartStore.getState().clearCartLocal();
+        useRecommendStore.getState().clearRecommendations();
 
         if (showToast) {
           showToast('Logged out successfully', 'info');
@@ -144,7 +148,8 @@ export const useAuthStore = create(
           // Sync library and cart from backend
           const { useLibraryStore } = await import('./useLibraryStore');
           const { useCartStore } = await import('./useCartStore');
-          useLibraryStore.getState().fetchLibrary();
+          useLibraryStore.getState().fetchWishlist();
+          useLibraryStore.getState().fetchPurchasedGames();
           useCartStore.getState().fetchCart();
         } catch (error) {
           logout();

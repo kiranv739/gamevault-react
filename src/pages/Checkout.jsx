@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './checkout.css';
 import { useCartStore } from '../store/useCartStore';
 import { useToastStore } from '../store/useToastStore';
+import { useLibraryStore } from '../store/useLibraryStore';
+import { checkout as checkoutApi } from '../api/orders';
 
 function Checkout({ reference, onPlaceOrder }) {
   const bag = useCartStore((state) => state.bag);
@@ -51,14 +53,29 @@ function Checkout({ reference, onPlaceOrder }) {
     setCvv(value.substring(0, 3));
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (bag.length === 0) {
-      alert('Your cart is empty. Cannot place order.');
+      showToast('Your cart is empty. Cannot place order.', 'error');
       return;
     }
-    if (onPlaceOrder) {
-      onPlaceOrder();
+    try {
+      // Call POST /orders/checkout
+      const purchased = await checkoutApi();
+      
+      // Sync the library store with backend
+      await useLibraryStore.getState().fetchPurchasedGames();
+      await useLibraryStore.getState().fetchWishlist();
+      
+      // Clear local useCartStore without triggerring backend DELETE calls
+      useCartStore.getState().clearCartLocal();
+      
+      if (onPlaceOrder) {
+        onPlaceOrder(purchased);
+      }
+    } catch (error) {
+      console.error('Checkout failed:', error);
+      showToast('Checkout failed, please try again', 'error');
     }
   };
 

@@ -5,9 +5,9 @@
 }
 
 .filter-dropdown-btn {
-  background: rgba(20, 20, 53, 0.4);
+  background: rgba(15, 15, 26, 0.4);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(217, 70, 239, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.12);
   color: var(--muted);
   font-weight: 700;
   font-size: 0.85rem;
@@ -23,15 +23,15 @@
 
 .filter-dropdown-btn:hover {
   color: var(--text);
-  border-color: rgba(217, 70, 239, 0.4);
-  background: rgba(217, 70, 239, 0.08);
+  border-color: rgba(139, 92, 246, 0.4);
+  background: rgba(139, 92, 246, 0.08);
 }
 
 .filter-dropdown-btn.active {
   color: var(--text);
   border-color: var(--glow);
-  background: rgba(217, 70, 239, 0.15);
-  box-shadow: 0 0 15px rgba(217, 70, 239, 0.15);
+  background: rgba(139, 92, 246, 0.15);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
 }
 
 .dropdown-arrow-icon {
@@ -58,12 +58,12 @@
   top: 50px;
   left: 0;
   width: 160px;
-  background: linear-gradient(135deg, rgba(20, 20, 53, 0.96), rgba(12, 13, 38, 0.98));
+  background: linear-gradient(135deg, rgba(15, 15, 26, 0.96), rgba(10, 10, 15, 0.98));
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(217, 70, 239, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.2);
   border-radius: 16px;
   padding: 6px;
-  box-shadow: 0 10px 30px rgba(6, 6, 26, 0.6);
+  box-shadow: 0 10px 30px rgba(10, 10, 15, 0.6);
   z-index: 200;
   display: flex;
   flex-direction: column;
@@ -90,7 +90,7 @@
 }
 
 .filter-dropdown-item:hover {
-  background: rgba(217, 70, 239, 0.12);
+  background: rgba(139, 92, 246, 0.12);
   color: var(--text);
   transform: translateX(2px);
 }
@@ -102,8 +102,8 @@
 
 /* Active filter indicator chip */
 .active-filter-chip {
-  background: rgba(217, 70, 239, 0.15);
-  border: 1px solid rgba(217, 70, 239, 0.35);
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.35);
   color: var(--accent);
   font-weight: 700;
   font-size: 0.8rem;
@@ -115,11 +115,11 @@
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 0 12px rgba(217, 70, 239, 0.1);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.1);
 }
 
 .active-filter-chip:hover {
-  background: rgba(217, 70, 239, 0.25);
+  background: rgba(139, 92, 246, 0.25);
   border-color: var(--glow);
   color: var(--text);
 }
@@ -135,15 +135,15 @@
   padding: 8px 22px;
   margin-bottom: 20px;
   border-radius: 23px;
-  background: rgba(20, 20, 53, 0.4);
+  background: rgba(15, 15, 26, 0.4);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(217, 70, 239, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.15);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .search:focus-within {
-  border-color: rgba(217, 70, 239, 0.5);
-  box-shadow: 0 0 20px rgba(217, 70, 239, 0.25);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.25);
   max-width: 340px; /* Subtle expand effect when typing */
 }
 
@@ -170,4 +170,18 @@
 .search input::placeholder {
   color: var(--muted);
   opacity: 0.8;
+}
+
+/* Responsive Categories Grid */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+  padding: 10px 0;
+}
+
+.categories-grid > div {
+  width: 100% !important;
+  max-width: 100% !important;
+  flex: 0 0 100% !important;
 }

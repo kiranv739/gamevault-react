@@ -19,9 +19,9 @@
   align-items: center;
   padding: 14px 18px;
   border-radius: 12px;
-  background: rgba(20, 20, 53, 0.9);
+  background: rgba(15, 15, 26, 0.9);
   backdrop-filter: blur(12px);
-  box-shadow: 0 10px 25px rgba(6, 6, 26, 0.5);
+  box-shadow: 0 10px 25px rgba(10, 10, 15, 0.5);
   box-sizing: border-box;
   width: 100%;
   
@@ -57,17 +57,17 @@
 /* Types Styling overrides */
 .toast-success {
   border: 1px solid rgba(16, 185, 129, 0.25);
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15), 0 10px 25px rgba(6, 6, 26, 0.5);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15), 0 10px 25px rgba(10, 10, 15, 0.5);
 }
 
 .toast-error {
   border: 1px solid rgba(244, 63, 94, 0.25);
-  box-shadow: 0 0 15px rgba(244, 63, 94, 0.15), 0 10px 25px rgba(6, 6, 26, 0.5);
+  box-shadow: 0 0 15px rgba(244, 63, 94, 0.15), 0 10px 25px rgba(10, 10, 15, 0.5);
 }
 
 .toast-info {
-  border: 1px solid rgba(217, 70, 239, 0.25);
-  box-shadow: 0 0 15px rgba(217, 70, 239, 0.15), 0 10px 25px rgba(6, 6, 26, 0.5);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.15), 0 10px 25px rgba(10, 10, 15, 0.5);
 }
 
 /* Content block styling */

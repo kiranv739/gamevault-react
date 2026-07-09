@@ -92,6 +92,56 @@ def seed_games(db: Session = Depends(get_db)):
                 rating = game_data.get("rating", 0.0)
                 image_url = game_data.get("background_image")
                 
+                # Fetch full details
+                detail_url = f"https://api.rawg.io/api/games/{rawg_id}?key={api_key}"
+                description = None
+                publisher = None
+                developer = None
+                release_date = None
+                esrb_rating = None
+                platforms = None
+                min_requirements = None
+                recommended_requirements = None
+                
+                import time
+                time.sleep(0.2)
+                
+                try:
+                    detail_resp = client.get(detail_url, timeout=10.0)
+                    detail_resp.raise_for_status()
+                    detail_data = detail_resp.json()
+                    
+                    description = detail_data.get("description_raw")
+                    
+                    publishers = detail_data.get("publishers", [])
+                    publisher = publishers[0].get("name") if publishers else None
+                    
+                    developers = detail_data.get("developers", [])
+                    developer = developers[0].get("name") if developers else None
+                    
+                    release_date = detail_data.get("released")
+                    
+                    esrb_rating_data = detail_data.get("esrb_rating")
+                    esrb_rating = esrb_rating_data.get("name") if esrb_rating_data else None
+                    
+                    platforms_data = detail_data.get("platforms", [])
+                    platforms_names = [p.get("platform", {}).get("name") for p in platforms_data if p.get("platform", {}).get("name")]
+                    platforms = ", ".join(platforms_names) if platforms_names else None
+                    
+                    pc_entry = None
+                    for p in platforms_data:
+                        if p.get("platform", {}).get("name") == "PC":
+                            pc_entry = p
+                            break
+                            
+                    if pc_entry:
+                        reqs = pc_entry.get("requirements")
+                        if reqs:
+                            min_requirements = reqs.get("minimum")
+                            recommended_requirements = reqs.get("recommended")
+                except Exception as e:
+                    print(f"Failed to fetch detail for {rawg_id}: {str(e)}")
+                
                 # Check duplicate
                 existing_game = db.query(models.Game).filter(models.Game.rawg_id == rawg_id).first()
                 if existing_game:
@@ -100,6 +150,14 @@ def seed_games(db: Session = Depends(get_db)):
                     existing_game.genre = genre
                     existing_game.rating = rating
                     existing_game.image_url = image_url
+                    existing_game.description = description
+                    existing_game.publisher = publisher
+                    existing_game.developer = developer
+                    existing_game.release_date = release_date
+                    existing_game.esrb_rating = esrb_rating
+                    existing_game.platforms = platforms
+                    existing_game.min_requirements = min_requirements
+                    existing_game.recommended_requirements = recommended_requirements
                     existing_game.cached_at = datetime.utcnow()
                 else:
                     # Generate price: random between 299 and 6999
@@ -115,7 +173,14 @@ def seed_games(db: Session = Depends(get_db)):
                         price=price,
                         discount=discount,
                         image_url=image_url,
-                        description=None,
+                        description=description,
+                        publisher=publisher,
+                        developer=developer,
+                        release_date=release_date,
+                        esrb_rating=esrb_rating,
+                        platforms=platforms,
+                        min_requirements=min_requirements,
+                        recommended_requirements=recommended_requirements,
                         cached_at=datetime.utcnow()
                     )
                     db.add(new_game)

@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, Float, Text, DateTime, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, String, Float, Text, DateTime, ForeignKey, UniqueConstraint, Boolean
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from database import Base
+from pgvector.sqlalchemy import Vector
 
 class User(Base):
     __tablename__ = "users"
@@ -28,6 +29,14 @@ class Game(Base):
     discount = Column(Integer, nullable=False)
     image_url = Column(String, nullable=True)
     description = Column(Text, nullable=True)
+    embedding = Column(Vector(384), nullable=True)
+    publisher = Column(String, nullable=True)
+    developer = Column(String, nullable=True)
+    release_date = Column(String, nullable=True)
+    esrb_rating = Column(String, nullable=True)
+    platforms = Column(String, nullable=True)
+    min_requirements = Column(Text, nullable=True)
+    recommended_requirements = Column(Text, nullable=True)
     cached_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 
     # Relationships
@@ -41,6 +50,7 @@ class Library(Base):
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     game_id = Column(Integer, ForeignKey("games.id", ondelete="CASCADE"), nullable=False)
     added_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    is_purchased = Column(Boolean, default=False, nullable=False)
 
     # Relationships
     user = relationship("User", back_populates="library_items")

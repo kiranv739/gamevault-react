@@ -8,3 +8,5 @@ python-dotenv
 pydantic
 httpx
 groq
+pgvector
+sentence-transformers

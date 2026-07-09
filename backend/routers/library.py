@@ -10,11 +10,17 @@ router = APIRouter()
 
 @router.get("", response_model=List[schemas.LibraryResponse])
 def get_library(
+    type: str = "all",
     current_user: models.User = Depends(auth.get_current_user),
     db: Session = Depends(get_db)
 ):
-    # Fetch all library items of current user
-    library_items = db.query(models.Library).filter(models.Library.user_id == current_user.id).all()
+    query = db.query(models.Library).filter(models.Library.user_id == current_user.id)
+    if type == "wishlist":
+        query = query.filter(models.Library.is_purchased == False)
+    elif type == "purchased":
+        query = query.filter(models.Library.is_purchased == True)
+        
+    library_items = query.all()
     return library_items
 
 @router.post("/{game_id}", response_model=schemas.LibraryResponse)
@@ -37,12 +43,18 @@ def add_to_library(
         models.Library.game_id == game_id
     ).first()
     if existing_item:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Game is already in your library"
-        )
+        if existing_item.is_purchased:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="You already own this game"
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Game is already in your wishlist"
+            )
     
-    new_item = models.Library(user_id=current_user.id, game_id=game_id)
+    new_item = models.Library(user_id=current_user.id, game_id=game_id, is_purchased=False)
     db.add(new_item)
     db.commit()
     db.refresh(new_item)

@@ -35,28 +35,9 @@ function SideMenu({ active, sectionActive })
       }
       </ul>
 
-      <ul className="social">
-        <li>
-          <button type="button" className="social-link-btn">
-           <i className="bi bi-instagram"></i>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="social-link-btn">
-           <i className="bi bi-twitter-x"></i>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="social-link-btn">
-           <i className="bi bi-youtube"></i>
-          </button>
-        </li>
-        <li>
-          <button type="button" className="social-link-btn share">
-           <i className="bi bi-share"></i>
-          </button>
-        </li>
-      </ul>
+      <div className="copyright-text">
+        <span>© 2025 GameVault</span>
+      </div>
 
 
     </div>
