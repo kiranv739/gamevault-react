@@ -5,8 +5,8 @@ import { useCartStore } from '../store/useCartStore';
 import { useAuthStore } from '../store/useAuthStore';
 
 function Profile({ reference, onNavigate }) {
-  const library = useLibraryStore((state) => state.library);
-  const bag = useCartStore((state) => state.bag);
+  const purchasedGames = useLibraryStore((state) => state.purchasedGames) || [];
+  const bag = useCartStore((state) => state.bag) || [];
   const user = useAuthStore((state) => state.user);
   const [isPasswordExpanded, setIsPasswordExpanded] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -59,7 +59,7 @@ function Profile({ reference, onNavigate }) {
           <div className="col-md-4">
             <div className="stats-card p-4 text-center">
               <i className="bi bi-controller stats-icon mb-2"></i>
-              <h4 className="stats-value">{library.length}</h4>
+              <h4 className="stats-value">{purchasedGames.length}</h4>
               <span className="stats-label">Games in Library</span>
             </div>
           </div>

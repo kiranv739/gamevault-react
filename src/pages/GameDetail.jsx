@@ -9,9 +9,10 @@ import { getSimilarGames } from '../api/similar';
 import SkeletonCard from '../components/SkeletonCard';
 
 function GameDetail({ game, games, onClose }) {
-  const library = useLibraryStore((state) => state.library);
-  const addToLibrary = useLibraryStore((state) => state.addToLibrary);
-  const removeFromLibrary = useLibraryStore((state) => state.removeFromLibrary);
+  const wishlist = useLibraryStore((state) => state.wishlist) || [];
+  const purchasedGames = useLibraryStore((state) => state.purchasedGames) || [];
+  const addToWishlist = useLibraryStore((state) => state.addToWishlist);
+  const removeFromWishlist = useLibraryStore((state) => state.removeFromWishlist);
 
   const bag = useCartStore((state) => state.bag);
   const addToCart = useCartStore((state) => state.addToCart);
@@ -56,15 +57,17 @@ function GameDetail({ game, games, onClose }) {
 
   if (!game) return null;
 
-  const isInLibrary = library.some((item) => item._id === game._id);
+  const isInWishlist = wishlist.some((item) => item._id === game._id);
+  const isPurchased = purchasedGames.some((item) => item._id === game._id);
   const isInBag = bag.some((item) => item._id === game._id);
 
-  const toggleLibrary = (e) => {
+  const toggleWishlist = (e) => {
     e.stopPropagation();
-    if (isInLibrary) {
-      removeFromLibrary(game._id, showToast);
+    if (isPurchased) return;
+    if (isInWishlist) {
+      removeFromWishlist(game._id, showToast);
     } else {
-      addToLibrary(game, showToast);
+      addToWishlist(game, showToast);
     }
   };
 
@@ -84,13 +87,25 @@ function GameDetail({ game, games, onClose }) {
           <i className="bi bi-arrow-left"></i>
         </button>
         <span className="detail-header-title">{game.title}</span>
-        <button 
-          onClick={toggleLibrary} 
-          className={`wishlist-toggle-btn ${isInLibrary ? 'active' : ''}`}
-          aria-label="Toggle wishlist"
-        >
-          <i className={`bi ${isInLibrary ? 'bi-heart-fill' : 'bi-heart'}`}></i>
-        </button>
+        {isPurchased ? (
+          <button 
+            type="button"
+            className="wishlist-toggle-btn active"
+            title="Owned"
+            style={{ cursor: 'default' }}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+          >
+            <i className="bi bi-controller"></i>
+          </button>
+        ) : (
+          <button 
+            onClick={toggleWishlist} 
+            className={`wishlist-toggle-btn ${isInWishlist ? 'active' : ''}`}
+            aria-label="Toggle wishlist"
+          >
+            <i className={`bi ${isInWishlist ? 'bi-heart-fill' : 'bi-heart'}`}></i>
+          </button>
+        )}
       </div>
 
       <div className="container detail-content-wrapper py-5">
@@ -140,21 +155,33 @@ function GameDetail({ game, games, onClose }) {
             </div>
 
             <div className="game-actions-block">
-              <button 
-                onClick={handleAddToBag} 
-                className={`w-100 btn-cart mb-3 ${isInBag ? 'in-bag' : ''}`}
-                disabled={isInBag}
-              >
-                <i className={`bi ${isInBag ? 'bi-bag-check-fill' : 'bi-bag-plus-fill'} me-2`}></i>
-                {isInBag ? 'Added to Bag' : 'Add to Cart'}
-              </button>
-              <button 
-                onClick={toggleLibrary} 
-                className="w-100 btn-wishlist"
-              >
-                <i className={`bi ${isInLibrary ? 'bi-heart-fill' : 'bi-heart'} me-2`}></i>
-                {isInLibrary ? 'In Wishlist' : 'Add to Wishlist'}
-              </button>
+              {isPurchased ? (
+                <button 
+                  onClick={(e) => { e.preventDefault(); alert(`Starting ${game.title}... 🎮`); }}
+                  className="w-100 btn-cart"
+                >
+                  <i className="bi bi-play-fill me-2" style={{ fontSize: '1.2rem' }}></i>
+                  Play Game
+                </button>
+              ) : (
+                <>
+                  <button 
+                    onClick={handleAddToBag} 
+                    className={`w-100 btn-cart mb-3 ${isInBag ? 'in-bag' : ''}`}
+                    disabled={isInBag}
+                  >
+                    <i className={`bi ${isInBag ? 'bi-bag-check-fill' : 'bi-bag-plus-fill'} me-2`}></i>
+                    {isInBag ? 'Added to Bag' : 'Add to Cart'}
+                  </button>
+                  <button 
+                    onClick={toggleWishlist} 
+                    className="w-100 btn-wishlist"
+                  >
+                    <i className={`bi ${isInWishlist ? 'bi-heart-fill' : 'bi-heart'} me-2`}></i>
+                    {isInWishlist ? 'In Wishlist' : 'Add to Wishlist'}
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
