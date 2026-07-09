@@ -9,4 +9,4 @@ pydantic
 httpx
 groq
 pgvector
-sentence-transformers
+numpy

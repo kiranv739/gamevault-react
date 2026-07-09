@@ -4,11 +4,29 @@ from database import get_db
 import models
 import schemas
 from typing import List
-from sentence_transformers import SentenceTransformer
-from pgvector.sqlalchemy import Vector
-from sqlalchemy import func
+import httpx
+import os
 
 router = APIRouter()
+
+HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+HF_API_URL = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{EMBEDDING_MODEL}"
+
+def get_embedding(text: str) -> list:
+    headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
+    response = httpx.post(
+        HF_API_URL,
+        headers=headers,
+        json={"inputs": text, "options": {"wait_for_model": True}},
+        timeout=30.0
+    )
+    result = response.json()
+    # HF returns list of lists for sentences, take mean
+    if isinstance(result, list) and len(result) > 0 and isinstance(result[0], list):
+        import numpy as np
+        return list(np.mean(result, axis=0))
+    return result
 
 @router.get("/{game_id}", response_model=List[schemas.GameResponse])
 def get_similar_games(game_id: int, db: Session = Depends(get_db)):
@@ -23,9 +41,8 @@ def get_similar_games(game_id: int, db: Session = Depends(get_db)):
     # If game has no embedding yet, generate it
     if game.embedding is None:
         try:
-            model = SentenceTransformer('all-MiniLM-L6-v2')
             text = f"{game.title} {game.genre or ''} {game.description or ''}"
-            embedding = model.encode(text).tolist()
+            embedding = get_embedding(text)
             game.embedding = embedding
             db.commit()
             db.refresh(game)
@@ -62,21 +79,18 @@ def generate_embeddings(db: Session = Depends(get_db)):
         if not games_to_process:
             return {"processed_count": 0}
             
-        model = SentenceTransformer('all-MiniLM-L6-v2')
-        batch_size = 20
         processed_count = 0
         
-        for i in range(0, len(games_to_process), batch_size):
-            batch = games_to_process[i:i+batch_size]
-            texts = [f"{g.title} {g.genre or ''} {g.description or ''}" for g in batch]
-            embeddings = model.encode(texts).tolist()
-            
-            for g, emb in zip(batch, embeddings):
+        for g in games_to_process:
+            try:
+                text = f"{g.title} {g.genre or ''} {g.description or ''}"
+                emb = get_embedding(text)
                 g.embedding = emb
+                db.commit()
+                processed_count += 1
+            except Exception as ex:
+                print(f"Error generating embedding for game {g.id}: {ex}")
                 
-            db.commit()
-            processed_count += len(batch)
-            
         return {"processed_count": processed_count}
     except Exception as e:
         print(f"Error generating batch embeddings: {e}")
