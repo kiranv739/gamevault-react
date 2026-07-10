@@ -16,8 +16,7 @@ function Profile({ reference, onNavigate }) {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  // Local state for orders count
-  const [ordersCount] = useState(1);
+
 
   const initial = user?.username 
     ? user.username.charAt(0).toUpperCase() 
@@ -56,7 +55,7 @@ function Profile({ reference, onNavigate }) {
         {/* 2. STATS ROW */}
         <div className="row g-4 mb-4">
           {/* Stats Card 1 */}
-          <div className="col-md-4">
+          <div className="col-md-6">
             <div className="stats-card p-4 text-center">
               <i className="bi bi-controller stats-icon mb-2"></i>
               <h4 className="stats-value">{purchasedGames.length}</h4>
@@ -65,64 +64,16 @@ function Profile({ reference, onNavigate }) {
           </div>
 
           {/* Stats Card 2 */}
-          <div className="col-md-4">
+          <div className="col-md-6">
             <div className="stats-card p-4 text-center">
               <i className="bi bi-bag-heart stats-icon mb-2"></i>
               <h4 className="stats-value">{bag.length}</h4>
               <span className="stats-label">Items in Cart</span>
             </div>
           </div>
-
-          {/* Stats Card 3 */}
-          <div className="col-md-4">
-            <div className="stats-card p-4 text-center">
-              <i className="bi bi-credit-card-2-back stats-icon mb-2"></i>
-              <h4 className="stats-value">{ordersCount}</h4>
-              <span className="stats-label">Orders Placed</span>
-            </div>
-          </div>
         </div>
 
-        {/* 3. MY ORDERS SECTION */}
-        <div className="profile-card mb-4 p-4">
-          <h3 className="card-title mb-4"><i className="bi bi-box-seam me-2"></i>My Orders</h3>
-          
-          {ordersCount === 0 ? (
-            <div className="text-center py-4">
-              <p className="text-muted mb-3">No orders yet. Start shopping!</p>
-              <button 
-                onClick={() => onNavigate?.('home')} 
-                className="empty-state-btn"
-                type="button"
-              >
-                Browse Games
-              </button>
-            </div>
-          ) : (
-            <div className="table-responsive">
-              <table className="table table-borderless align-middle profile-orders-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Order ID</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Games</th>
-                    <th scope="col">Amount</th>
-                    <th scope="col">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td><span className="order-id-badge">#GV-738492</span></td>
-                    <td>June 29, 2026</td>
-                    <td className="text-muted">Cyberpunk 2077, Elden Ring</td>
-                    <td>₹3,499.00</td>
-                    <td><span className="badge status-badge bg-success">Delivered</span></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+
 
         {/* 4. ACCOUNT SETTINGS */}
         <div className="profile-card p-4">

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './home.css';
 import GameSwiper from '../components/GameSwiper';
 import GameCard from '../components/GameCard';
@@ -19,6 +19,10 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
   const loadingRecs = useRecommendStore((state) => state.isLoading);
   const recsError = useRecommendStore((state) => state.error);
   const fetchRecommendations = useRecommendStore((state) => state.fetchRecommendations);
+
+  const recsStripRef = useRef(null);
+  const saleStripRef = useRef(null);
+  const ratedStripRef = useRef(null);
 
   useEffect(() => {
     if (!isAuthenticated || isGuest) return;
@@ -44,6 +48,13 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
     .slice(0, 6);
 
   const isLibraryAndCartEmpty = wishlist.length === 0 && bag.length === 0;
+
+  const scroll = (ref, direction) => {
+    if (ref.current) {
+      const scrollAmount = 320;
+      ref.current.scrollBy({ left: direction === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   return (
     <section id="home" className="home active" ref={reference}>
@@ -82,7 +93,10 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
                 </div>
               </div>
               <div className="scrollable-strip-wrapper">
-                <div className="scrollable-strip">
+                <button className="strip-arrow strip-arrow-left" onClick={() => scroll(recsStripRef, 'left')} aria-label="Scroll left">
+                  <i className="bi bi-chevron-left"></i>
+                </button>
+                <div className="scrollable-strip" ref={recsStripRef}>
                   {loadingRecs ? (
                     Array.from({ length: 4 }).map((_, index) => (
                       <SkeletonCard key={`rec-skeleton-${index}`} />
@@ -101,6 +115,9 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
                     ))
                   )}
                 </div>
+                <button className="strip-arrow strip-arrow-right" onClick={() => scroll(recsStripRef, 'right')} aria-label="Scroll right">
+                  <i className="bi bi-chevron-right"></i>
+                </button>
               </div>
             </div>
           )
@@ -122,7 +139,10 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
             </div>
           </div>
           <div className="scrollable-strip-wrapper">
-            <div className="scrollable-strip">
+            <button className="strip-arrow strip-arrow-left" onClick={() => scroll(saleStripRef, 'left')} aria-label="Scroll left">
+              <i className="bi bi-chevron-left"></i>
+            </button>
+            <div className="scrollable-strip" ref={saleStripRef}>
               {isLoading ? (
                 Array.from({ length: 4 }).map((_, index) => (
                   <SkeletonCard key={`sale-skeleton-${index}`} />
@@ -137,6 +157,9 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
                 ))
               )}
             </div>
+            <button className="strip-arrow strip-arrow-right" onClick={() => scroll(saleStripRef, 'right')} aria-label="Scroll right">
+              <i className="bi bi-chevron-right"></i>
+            </button>
           </div>
         </div>
 
@@ -148,7 +171,10 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
             </div>
           </div>
           <div className="scrollable-strip-wrapper">
-            <div className="scrollable-strip">
+            <button className="strip-arrow strip-arrow-left" onClick={() => scroll(ratedStripRef, 'left')} aria-label="Scroll left">
+              <i className="bi bi-chevron-left"></i>
+            </button>
+            <div className="scrollable-strip" ref={ratedStripRef}>
               {isLoading ? (
                 Array.from({ length: 4 }).map((_, index) => (
                   <SkeletonCard key={`rated-skeleton-${index}`} />
@@ -163,6 +189,9 @@ function Home({ games, reference, onSectionSwitch, onGenreFilter, onGameClick, i
                 ))
               )}
             </div>
+            <button className="strip-arrow strip-arrow-right" onClick={() => scroll(ratedStripRef, 'right')} aria-label="Scroll right">
+              <i className="bi bi-chevron-right"></i>
+            </button>
           </div>
         </div>
       </div>

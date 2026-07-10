@@ -130,16 +130,7 @@ function Header({ toggleActive, onSearch, onProfile, onOrders, onLogout, searchQ
                   <i className="bi bi-person-fill item-icon"></i>
                   <span>My Profile</span>
                 </button>
-                <button
-                  className="dropdown-item-link"
-                  onClick={() => {
-                    onOrders?.();
-                    setIsDropdownOpen(false);
-                  }}
-                >
-                  <i className="bi bi-receipt-cutoff item-icon"></i>
-                  <span>My Orders</span>
-                </button>
+
                 <div className="dropdown-divider-line"></div>
                 <button
                   className="dropdown-item-link logout-item"

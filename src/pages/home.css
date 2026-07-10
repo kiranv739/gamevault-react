@@ -92,6 +92,59 @@ section.home .sectionTitle {
   z-index: 2;
 }
 
+.scrollable-strip-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 60px;
+  background: linear-gradient(to left, transparent, rgba(10, 10, 15, 0.95) 90%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Strip scroll arrows */
+.strip-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  background: rgba(15, 15, 26, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  color: var(--text);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.25s ease;
+  opacity: 0;
+}
+
+.scrollable-strip-wrapper:hover .strip-arrow {
+  opacity: 1;
+}
+
+.strip-arrow:hover {
+  background: rgba(139, 92, 246, 0.3);
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.3);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.strip-arrow-left {
+  left: 8px;
+}
+
+.strip-arrow-right {
+  right: 8px;
+}
+
 .scrollable-strip {
   display: flex;
   overflow-x: auto;

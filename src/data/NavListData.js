@@ -10,7 +10,7 @@ const navListData = [
       _id: 2,
       target: 'categories',
       name: 'Discover',
-      icon: 'bi-window-stack',
+      icon: 'bi-compass',
       active: false,
     },
     {
