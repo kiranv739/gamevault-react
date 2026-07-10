@@ -53,7 +53,7 @@
   background: rgba(10, 10, 15, 0.8);
   backdrop-filter: blur(8px);
   border-radius: 50%;
-  color: var(--muted);
+  color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
