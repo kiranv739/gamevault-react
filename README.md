@@ -2,8 +2,6 @@
 
 GameVault is a full-stack, responsive gaming storefront and library application. It features a React frontend using Zustand for state management, and a robust FastAPI backend connected to PostgreSQL (Neon DB).
 
-![GameVault Preview](https://raw.githubusercontent.com/kiranv739/gamevault-react/main/public/assets/cyberpunk.jpg) *(Replace with actual application screenshot)*
-
 ## ✨ Key Features
 
 - **🔐 Interactive User Authentication**: Register, log in (JWT authenticated), or browse as a guest.
