@@ -4,29 +4,9 @@ from database import get_db
 import models
 import schemas
 from typing import List
-import httpx
-import os
+from embedding_service import get_embedding
 
 router = APIRouter()
-
-HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
-EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-HF_API_URL = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{EMBEDDING_MODEL}"
-
-def get_embedding(text: str) -> list:
-    headers = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
-    response = httpx.post(
-        HF_API_URL,
-        headers=headers,
-        json={"inputs": text, "options": {"wait_for_model": True}},
-        timeout=30.0
-    )
-    result = response.json()
-    # HF returns list of lists for sentences, take mean
-    if isinstance(result, list) and len(result) > 0 and isinstance(result[0], list):
-        import numpy as np
-        return list(np.mean(result, axis=0))
-    return result
 
 @router.get("/{game_id}", response_model=List[schemas.GameResponse])
 def get_similar_games(game_id: int, db: Session = Depends(get_db)):
@@ -80,6 +60,7 @@ def generate_embeddings(db: Session = Depends(get_db)):
             return {"processed_count": 0}
             
         processed_count = 0
+        failed_count = 0
         
         for g in games_to_process:
             try:
@@ -90,8 +71,9 @@ def generate_embeddings(db: Session = Depends(get_db)):
                 processed_count += 1
             except Exception as ex:
                 print(f"Error generating embedding for game {g.id}: {ex}")
+                failed_count += 1
                 
-        return {"processed_count": processed_count}
+        return {"processed_count": processed_count, "failed_count": failed_count}
     except Exception as e:
         print(f"Error generating batch embeddings: {e}")
         raise HTTPException(

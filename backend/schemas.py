@@ -10,8 +10,20 @@ class UserCreate(UserBase):
     password: str
 
 class UserLogin(BaseModel):
-    email: str
+    identifier: Optional[str] = None
+    email: Optional[str] = None
     password: str
+
+class UserProfileUpdate(BaseModel):
+    username: str
+    email: str
+
+class PasswordChange(BaseModel):
+    current_password: str
+    new_password: str
+
+class AccountDelete(BaseModel):
+    current_password: str
 
 class UserResponse(UserBase):
     id: int

@@ -11,7 +11,7 @@ function Login({ setAuthView }) {
   
   const showToast = useToastStore((state) => state.showToast);
 
-  const [email, setEmail] = useState('');
+  const [usernameOrEmail, setUsernameOrEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +20,7 @@ function Login({ setAuthView }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await login({ email, password, rememberMe }, showToast);
+    await login({ usernameOrEmail, password, rememberMe }, showToast);
     setIsSubmitting(false);
   };
 
@@ -56,12 +56,15 @@ function Login({ setAuthView }) {
 
         <form onSubmit={handleSubmit} className="fade-in">
           <div className="mb-3 text-start">
-            <label className="auth-label mb-1">Email Address</label>
+            <label className="auth-label mb-1" htmlFor="login-identifier">Username or Email</label>
             <input 
-              type="email" 
-              placeholder="name@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="login-identifier"
+              type="text"
+              autoCapitalize="none"
+              autoComplete="username"
+              placeholder="Username or email address"
+              value={usernameOrEmail}
+              onChange={(e) => setUsernameOrEmail(e.target.value)}
               required
               className="form-control auth-input"
             />

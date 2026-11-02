@@ -8,8 +8,31 @@ from sqlalchemy.orm import Session
 from database import get_db
 import models
 import schemas
+from embedding_service import get_embedding
 
 router = APIRouter()
+
+
+def _game_embedding_text(game):
+    return f"{game.title} {game.genre or ''} {game.description or ''}"
+
+
+def _index_games_without_embeddings(db: Session):
+    games_to_index = db.query(models.Game).filter(
+        models.Game.embedding.is_(None)
+    ).all()
+    if not games_to_index:
+        return 0
+
+    indexed_count = 0
+    for game in games_to_index:
+        try:
+            game.embedding = get_embedding(_game_embedding_text(game))
+            indexed_count += 1
+        except Exception as exc:
+            print(f"Could not embed game {game.id}: {exc}")
+    db.commit()
+    return indexed_count
 
 @router.get("/featured", response_model=List[schemas.GameResponse])
 def get_featured(db: Session = Depends(get_db)):
@@ -38,7 +61,29 @@ def get_games(
     query = db.query(models.Game)
     
     if search:
-        query = query.filter(models.Game.title.ilike(f"%{search}%"))
+        # Index new/imported catalog rows on demand so they participate in
+        # semantic results without requiring a separate manual backfill.
+        _index_games_without_embeddings(db)
+        has_embeddings = db.query(models.Game.id).filter(
+            models.Game.embedding.is_not(None)
+        ).first()
+        if has_embeddings:
+            try:
+                search_embedding = get_embedding(search)
+                query = query.filter(
+                    models.Game.embedding.is_not(None)
+                ).order_by(
+                    models.Game.embedding.cosine_distance(search_embedding)
+                )
+            except Exception as exc:
+                # Keep catalog search available if the embedding provider is
+                # unavailable; title matching is the existing fallback.
+                print(f"Semantic search unavailable; using title search: {exc}")
+                query = query.filter(models.Game.title.ilike(f"%{search}%"))
+        else:
+            # The embedding-generation endpoint must be run once to index the
+            # catalog before semantic ranking can be used.
+            query = query.filter(models.Game.title.ilike(f"%{search}%"))
         
     if genre:
         query = query.filter(models.Game.genre.ilike(f"%{genre}%"))
@@ -145,6 +190,10 @@ def seed_games(db: Session = Depends(get_db)):
                 # Check duplicate
                 existing_game = db.query(models.Game).filter(models.Game.rawg_id == rawg_id).first()
                 if existing_game:
+                    old_embedding_text = _game_embedding_text(existing_game)
+                    new_embedding_text = f"{title} {genre or ''} {description or ''}"
+                    if old_embedding_text != new_embedding_text:
+                        existing_game.embedding = None
                     # Update fields
                     existing_game.title = title
                     existing_game.genre = genre
@@ -186,6 +235,8 @@ def seed_games(db: Session = Depends(get_db)):
                     db.add(new_game)
                 total_seeded += 1
                 
+        db.flush()
+        _index_games_without_embeddings(db)
         db.commit()
         
     return {"message": f"Successfully seeded {total_seeded} games from RAWG API."}

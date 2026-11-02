@@ -49,6 +49,20 @@
   transform: translateY(-1px);
 }
 
+.btn-edit-profile:disabled,
+.btn-delete-account:disabled,
+.btn-modal-cancel:disabled,
+.btn-modal-delete:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
+}
+
+.profile-edit-form .card-title {
+  color: var(--text);
+  font-weight: 700;
+}
+
 /* 2. Stats Grid */
 .stats-card {
   background: linear-gradient(135deg, rgba(15, 15, 26, 0.25) 0%, rgba(10, 10, 15, 0.45) 100%);

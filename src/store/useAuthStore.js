@@ -1,6 +1,13 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { loginUser, registerUser, getMe } from '../api/auth';
+import {
+  loginUser,
+  registerUser,
+  getMe,
+  updateMyProfile,
+  changeMyPassword,
+  deleteMyAccount,
+} from '../api/auth';
 
 export const useAuthStore = create(
   persist(
@@ -11,14 +18,29 @@ export const useAuthStore = create(
       isGuest: false,
       authError: '',
       setAuthError: (error) => set({ authError: error }),
+
+      updateProfile: async (profile) => {
+        const user = await updateMyProfile(profile);
+        set({ user });
+        return user;
+      },
+
+      changePassword: async (passwords) => changeMyPassword(passwords),
+
+      deleteAccount: async (currentPassword, showToast) => {
+        await deleteMyAccount(currentPassword);
+        await get().logout();
+        if (showToast) showToast('Your account has been deleted', 'success');
+      },
       
       login: async (formData, showToast) => {
-        if (!formData.email || !formData.password) {
+        const identifier = formData.usernameOrEmail || formData.email;
+        if (!identifier || !formData.password) {
           set({ authError: 'Please fill in all fields' });
           return false;
         }
         try {
-          const data = await loginUser(formData.email, formData.password);
+          const data = await loginUser(identifier, formData.password);
           // Store token first so that getMe API call automatically uses it in headers
           set({ token: data.access_token });
           
