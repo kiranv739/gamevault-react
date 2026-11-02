@@ -117,7 +117,9 @@ function Register({ setAuthView }) {
             {isSubmitting ? 'Creating Account...' : 'Create Account'}
           </button>
 
-          {authError && <div className="text-danger text-center small mb-3">{authError}</div>}
+          {typeof authError === 'string' && authError && (
+            <div className="text-danger text-center small mb-3">{authError}</div>
+          )}
         </form>
       </div>
     </div>

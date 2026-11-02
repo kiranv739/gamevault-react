@@ -18,7 +18,11 @@ export const useAuthStore = create(
       token: null,
       isGuest: false,
       authError: '',
-      setAuthError: (error) => set({ authError: error }),
+      setAuthError: (error) => set({
+        authError: typeof error === 'string'
+          ? error
+          : getApiErrorMessage({ response: { data: { detail: error } } }, 'Authentication failed'),
+      }),
 
       updateProfile: async (profile) => {
         const user = await updateMyProfile(profile);
@@ -181,6 +185,17 @@ export const useAuthStore = create(
     }),
     {
       name: 'gamevault-auth', // key for localStorage
+      partialize: (state) => ({
+        user: state.user,
+        isAuthenticated: state.isAuthenticated,
+        token: state.token,
+        isGuest: state.isGuest,
+      }),
+      merge: (persistedState, currentState) => ({
+        ...currentState,
+        ...(persistedState || {}),
+        authError: typeof persistedState?.authError === 'string' ? persistedState.authError : '',
+      }),
     }
   )
 );

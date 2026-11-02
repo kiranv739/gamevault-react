@@ -114,7 +114,9 @@ function Login({ setAuthView }) {
             {isSubmitting ? 'Logging in...' : 'Login'}
           </button>
 
-          {authError && <div className="text-danger text-center small mb-3">{authError}</div>}
+          {typeof authError === 'string' && authError && (
+            <div className="text-danger text-center small mb-3">{authError}</div>
+          )}
 
           <div className="divider-or mb-3">
             <span>or</span>
