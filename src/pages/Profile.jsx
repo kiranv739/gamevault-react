@@ -4,6 +4,7 @@ import { useLibraryStore } from '../store/useLibraryStore';
 import { useCartStore } from '../store/useCartStore';
 import { useAuthStore } from '../store/useAuthStore';
 import { useToastStore } from '../store/useToastStore';
+import { getApiErrorMessage } from '../api/errors';
 
 function Profile({ reference }) {
   const purchasedGames = useLibraryStore((state) => state.purchasedGames) || [];
@@ -28,7 +29,6 @@ function Profile({ reference }) {
   const [deletePassword, setDeletePassword] = useState('');
 
   const initial = user?.username ? user.username.charAt(0).toUpperCase() : 'G';
-  const errorMessage = (error) => error.response?.data?.detail || error.message || 'Something went wrong';
 
   const openProfileEditor = () => {
     setProfileForm({ username: user?.username || '', email: user?.email || '' });
@@ -43,7 +43,7 @@ function Profile({ reference }) {
       showToast('Profile updated successfully', 'success');
       setIsEditingProfile(false);
     } catch (error) {
-      showToast(errorMessage(error), 'error');
+      showToast(getApiErrorMessage(error, 'Could not update your profile'), 'error');
     } finally {
       setIsSavingProfile(false);
     }
@@ -64,7 +64,7 @@ function Profile({ reference }) {
       setConfirmPassword('');
       setIsPasswordExpanded(false);
     } catch (error) {
-      showToast(errorMessage(error), 'error');
+      showToast(getApiErrorMessage(error, 'Could not update your password'), 'error');
     } finally {
       setIsSavingPassword(false);
     }
@@ -76,7 +76,7 @@ function Profile({ reference }) {
     try {
       await deleteAccount(deletePassword, showToast);
     } catch (error) {
-      showToast(errorMessage(error), 'error');
+      showToast(getApiErrorMessage(error, 'Could not delete your account'), 'error');
       setIsDeletingAccount(false);
     }
   };

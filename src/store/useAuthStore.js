@@ -8,6 +8,7 @@ import {
   changeMyPassword,
   deleteMyAccount,
 } from '../api/auth';
+import { getApiErrorMessage } from '../api/errors';
 
 export const useAuthStore = create(
   persist(
@@ -64,7 +65,7 @@ export const useAuthStore = create(
           }
           return true;
         } catch (error) {
-          const errMsg = error.response?.data?.detail || error.message || 'Login failed';
+          const errMsg = getApiErrorMessage(error, 'Login failed');
           set({ authError: errMsg });
           if (showToast) {
             showToast(errMsg, 'error');
@@ -102,7 +103,7 @@ export const useAuthStore = create(
           }
           return true;
         } catch (error) {
-          const errMsg = error.response?.data?.detail || error.message || 'Registration failed';
+          const errMsg = getApiErrorMessage(error, 'Registration failed');
           set({ authError: errMsg });
           if (showToast) {
             showToast(errMsg, 'error');
