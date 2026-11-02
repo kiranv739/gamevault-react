@@ -11,4 +11,4 @@ httpx
 groq
 pgvector
 numpy
-sentence-transformers
+fastembed==0.9.1
